@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimiCini - Séries</title>
+  <style>
+    /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background: #0a1a35;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== CABEÇALHO ===== */
+    header {
+      background: rgba(12, 35, 64, 0.95);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e3a5f;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo-container {
+      position: relative;
+    }
+    
+    .logo {
+      margin: 0;
+      font-size: 28px;
+      color: #fff679;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .logo:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    /* ===== MENU DO LOGO ===== */
+    .logo-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(12, 35, 64, 0.95);
+      border: 1px solid #1e3a5f;
+      border-radius: 8px;
+      padding: 10px 0;
+      min-width: 200px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
+    
+    #logo-menu-toggle:checked ~ .logo-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .logo-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+      border-bottom: 1px solid rgba(30, 58, 95, 0.5);
+    }
+    
+    .logo-menu a:hover {
+      background: rgba(74, 159, 255, 0.2);
+      color: #4a9fff;
+      padding-left: 25px;
+    }
+    
+    .logo-menu a:last-child {
+      border-bottom: none;
+    }
+    
+    #logo-menu-toggle {
+      display: none;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    
+    .top-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .top-nav a:hover {
+      color: #4a9fff;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .search-icon {
+      font-size: 18px;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.3s;
+    }
+
+    .search-icon:hover {
+      color: #4a9fff;
+      transform: scale(1.1);
+    }
+
+    /* ===== CONTEÚDO PRINCIPAL ===== */
+    .main-content {
+      margin-top: 80px;
+      padding: 20px;
+    }
+
+    /* ===== BANNER DE BOAS-VINDAS ===== */
+    .welcome-banner {
+      padding: 40px 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      background: linear-gradient(135deg, #0c2340, #1e3a5f);
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-out;
+    }
+    
+    .welcome-banner h2 {
+      font-size: 42px;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .welcome-banner p {
+      font-size: 22px;
+      color: #b8d4ff;
+    }
+
+    /* ===== SEÇÕES ===== */
+    .continue-series-section,
+    .series-alta-section,
+    .originais-section,
+    .top10-section,
+    .recomendadas-section,
+    .generos-section {
+      margin-bottom: 50px;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 25px;
+      color: #fff;
+      border-left: 6px solid #4a9fff;
+      padding-left: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ===== GRID DE CONTEÚDO ===== */
+    .grid {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 10px 5px;
+      scrollbar-width: thin;
+      scrollbar-color: #4a9fff #1e3a5f;
+    }
+
+    .grid::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .grid::-webkit-scrollbar-track {
+      background: #1e3a5f;
+      border-radius: 10px;
+    }
+
+    .grid::-webkit-scrollbar-thumb {
+      background: #4a9fff;
+      border-radius: 10px;
+    }
+
+    .card {
+      background: #1e3a5f;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 200px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      border: 1px solid #2a4a75;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(74, 159, 255, 0.4);
+      z-index: 10;
+    }
+    
+    .card img {
+      width: 100%;
+      display: block;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .card h4 {
+      margin: 15px 10px 5px;
+      font-size: 16px;
+      color: #fff;
+      font-weight: bold;
+    }
+    
+    .card p {
+      margin: 0 10px 10px;
+      font-size: 13px;
+      color: #b8d4ff;
+    }
+
+    .new-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #e50914;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .card a {
+      display: block;
+      text-align: center;
+      background: #4a9fff;
+      color: #fff;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 0 0 12px 12px;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+    
+    .card a:hover {
+      background: #2a80b2;
+      letter-spacing: 1px;
+    }
+
+    /* ===== LISTA DO TOP 10 ===== */
+    .top-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .top-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      background: rgba(30, 58, 95, 0.7);
+      position: relative;
+    }
+    
+    .top-item:hover {
+      background: rgba(42, 128, 178, 0.3);
+      transform: translateX(10px);
+    }
+
+    .top-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4a9fff;
+      min-width: 30px;
+    }
+    
+    .top-item img {
+      width: 70px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      transition: transform 0.3s;
+    }
+
+    .top-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .top-item-content {
+      flex: 1;
+    }
+    
+    .top-item-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    
+    .top-item-desc {
+      font-size: 14px;
+      color: #b8d4ff;
+    }
+
+    /* ===== DESTAQUES ===== */
+    .highlight-section {
+      background: rgba(30, 58, 95, 0.7);
+      padding: 30px;
+      margin: 20px 0;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border-left: 6px solid #4a9fff;
+      animation: pulse 2s infinite;
+    }
+    
+    .highlight-title {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .highlight-desc {
+      font-size: 18px;
+      color: #b8d4ff;
+      margin-bottom: 20px;
+    }
+
+    /* ===== DIVISORES ===== */
+    .divider {
+      height: 2px;
+      background: linear-gradient(to right, transparent, #2a4a75, transparent);
+      margin: 40px 0;
+    }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      background: #0c2340;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 14px;
+      color: #b8d4ff;
+      margin-top: 50px;
+      border-top: 1px solid #1e3a5f;
+    }
+
+    /* ===== BOTÕES DE NAVEGAÇÃO ===== */
+    .nav-button {
+      display: inline-block;
+      background: #4a9fff;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 10px 5px;
+      transition: all 0.3s;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .nav-button:hover {
+      background: #2a80b2;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ===== ANIMAÇÕES ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { 
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(74, 159, 255, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(74, 159, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(74, 159, 255, 0); }
+    }
+
+    
+
+    .see-all:hover {
+      background: #4a9fff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== CABEÇALHO DA PÁGINA ===== -->
+  <header>
+    <div class="logo-container">
+      <input type="checkbox" id="logo-menu-toggle">
+      <label for="logo-menu-toggle" class="logo">TimiCini</label>
+      <div class="logo-menu">
+        <a href="inicio.html">Página Inicial</a>
+        <a href="minha-conta.html">Minha Conta</a>
+        <a href="configuracoes.html">Configurações</a>
+        <a href="ajuda.html">Central de Ajuda</a>
+        <a href="sair.html">Sair</a>
+      </div>
+    </div>
+    
+    <div class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="series.html" style="color: #4a9fff; font-weight: bold;">Séries</a>
+      <a href="filmes.html">Filmes</a>
+      <a href="bombando.html">Bombando</a>
+      <a href="minhalista.html">Minha Lista</a>
+      <a href="pesquisa.html" class="search-icon">&#128269;</a>
+    </div>
+  </header>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <div class="main-content">
+    <!-- ===== BANNER DE BOAS-VINDAS ===== -->
+    <section class="welcome-banner">
+      <h2>Séries Imperdíveis</h2>
+      <p>Descubra as melhores séries para maratonar</p>
+    </section>
+
+    <!-- ===== SEÇÃO "CONTINUE ASSISTINDO SÉRIES" ===== -->
+    <section class="continue-series-section">
+      
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">NOVO</div>
+          <img src="APrincesaMononoke.jpg" alt="Princesa Mononoke">
+          <h4>A princesa Mononoke</h4>
+          <p>Animação • 78% assistido</p>
+          <a href="PrincesaMononoke.html">Continuar</a>
+        </div>
+        
+        <div class="card">
+          <img src="lucifer.jpg" alt="Lucifer">
+          <h4>Lucifer</h4>
+          <p>Suspense • 45% assistido</p>
+          <a href="lucifer.html">Continuar</a>
+        </div>
+        
+        <div class="card">
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet tooth">
+          <h4>Sweet Tooth</h4>
+          <p>Fantasia • 32% assistido</p>
+          <a href="sweet-tooth.html">Continuar</a>
+        </div>
+        
+        <div class="card">
+          <img src="elite.webp" alt="Elite">
+          <h4>Elite</h4>
+          <p>Drama • 15% assistido</p>
+          <a href="elite.html">Continuar</a>
+        </div>
+
+        <div class="card">
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton</h4>
+          <p>Suspense • 60% assistido</p>
+          <a href="bridgerton.html">Continuar</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">NOVO</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <h4>Squid Game</h4>
+          <p>Drama • 25% assistido</p>
+          <a href="squid-game.html">Continuar</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "SÉRIES EM ALTA" ===== -->
+    <section class="series-alta-section">
+      
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">TOP</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <h4>Squid Game</h4>
+          <p>Suspense • 2021</p>
+          <a href="squid-game.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton</h4>
+          <p>Romance • 2020</p>
+          <a href="bridgerton.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <h4>YOU</h4>
+          <p>Suspense • 2022</p>
+          <a href="you.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet tooth">
+          <h4>Sweet tooth</h4>
+          <p>Fantasia • 2022</p>
+          <a href="sweet-tooth.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <img src="lucifer.jpg" alt="Lucifer">
+          <h4>Lucifer</h4>
+          <p>Suspense • 2016</p>
+          <a href="lucifer.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <h4>Cobra Kai</h4>
+          <p>Ação • 2018</p>
+          <a href="cobra-kai.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <img src="APrincesaMononoke.jpg" alt="Princesa Mononoke">
+          <h4>A princesa Mononoke</h4>
+          <p>Animação • 1997</p>
+          <a href="PrincesaMononoke.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "TOP 10 SÉRIES NO BRASIL" ===== -->
+    <section class="top10-section">
+      
+      <div class="top-list">
+        <div class="top-item">
+          <div class="top-number">1</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <div class="top-item-content">
+            <div class="top-item-title">Bridgerton</div>
+            <div class="top-item-desc">NOVA TEMPORADA</div>
+            <a href="bridgerton.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">2</div>
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <div class="top-item-content">
+            <div class="top-item-title">YOU</div>
+            <div class="top-item-desc">DISPONÍVEL</div>
+            <a href="you.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">3</div>
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <div class="top-item-content">
+            <div class="top-item-title">Cobra Kai</div>
+            <div class="top-item-desc">TEMPORADA FINAL</div>
+            <a href="cobra-kai.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">4</div>
+          <img src="lucifer.jpg" alt="Lucifer">
+          <div class="top-item-content">
+            <div class="top-item-title">Lucifer</div>
+            <div class="top-item-desc">NOVA TEMPORADA</div>
+            <a href="lucifer.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">5</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <div class="top-item-content">
+            <div class="top-item-title">Squid Game</div>
+            <div class="top-item-desc">SÉRIE COMPLETA</div>
+            <a href="squid-game.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">6</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet Tooth">
+          <div class="top-item-content">
+            <div class="top-item-title">Sweet Tooth</div>
+            <div class="top-item-desc">EM ALTA</div>
+            <a href="sweet-tooth.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">7</div>
+          <img src="APrincesaMononoke.jpg" alt="Princesa Mononoke">
+          <div class="top-item-content">
+            <div class="top-item-title">A Princesa Mononoke</div>
+            <div class="top-item-desc">CLÁSSICO</div>
+            <a href="PrincesaMononoke.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">8</div>
+          <img src="elite.webp" alt="Elite">
+          <div class="top-item-content">
+            <div class="top-item-title">Elite</div>
+            <div class="top-item-desc">DRAMA</div>
+            <a href="elite.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DIVISOR VISUAL ===== -->
+    <div class="divider"></div>
+
+    <!-- ===== SEÇÃO "SÉRIES ORIGINAIS TimiCini" ===== -->
+    <section class="originais-section">
+      
+      
+      <div class="highlight-section">
+        <div class="highlight-title">LA CASA DE PAPEL</div>
+        <div class="highlight-desc">A maior atração de assalto já vista na televisão. Nova temporada em breve!</div>
+        <a href="la-casa-de-papel.html" class="nav-button">Saiba mais</a>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">ORIGINAL</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <h4>Squid Game</h4>
+          <p>Suspense • 2021</p>
+          <a href="squid-game.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">ORIGINAL</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton</h4>
+          <p>Romance • 2020</p>
+          <a href="bridgerton.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">ORIGINAL</div>
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <h4>YOU</h4>
+          <p>Suspense • 2018</p>
+          <a href="you.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">ORIGINAL</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet Tooth">
+          <h4>Sweet Tooth</h4>
+          <p>Fantasia • 2021</p>
+          <a href="sweet-tooth.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">ORIGINAL</div>
+          <img src="lucifer.jpg" alt="Lucifer">
+          <h4>Lucifer</h4>
+          <p>Suspense • 2016</p>
+          <a href="lucifer.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">ORIGINAL</div>
+          <img src="elite.webp" alt="Elite">
+          <h4>Elite</h4>
+          <p>Drama • 2018</p>
+          <a href="elite.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "SÉRIES RECOMENDADAS" ===== -->
+    <section class="recomendadas-section">
+    
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">RECOMENDADO</div>
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <h4>Cobra Kai</h4>
+          <p>Ação • 2018</p>
+          <a href="cobra-kai.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">RECOMENDADO</div>
+          <img src="APrincesaMononoke.jpg" alt="Princesa Mononoke">
+          <h4>A Princesa Mononoke</h4>
+          <p>Animação • 1997</p>
+          <a href="PrincesaMononoke.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">RECOMENDADO</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <h4>Squid Game</h4>
+          <p>Suspense • 2021</p>
+          <a href="squid-game.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">RECOMENDADO</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton</h4>
+          <p>Romance • 2020</p>
+          <a href="bridgerton.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">RECOMENDADO</div>
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <h4>YOU</h4>
+          <p>Suspense • 2018</p>
+          <a href="you.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">RECOMENDADO</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet Tooth">
+          <h4>Sweet Tooth</h4>
+          <p>Fantasia • 2021</p>
+          <a href="sweet-tooth.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "SÉRIES POR GÊNERO" ===== -->
+    <section class="generos-section">
+      
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">DRAMA</div>
+          <img src="elite.webp" alt="Elite">
+          <h4>Elite</h4>
+          <p>Drama • 2018</p>
+          <a href="elite.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">SUSPENSE</div>
+          <img src="lucifer.jpg" alt="Lucifer">
+          <h4>Lucifer</h4>
+          <p>Suspense • 2016</p>
+          <a href="lucifer.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">FANTASIA</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet Tooth">
+          <h4>Sweet Tooth</h4>
+          <p>Fantasia • 2021</p>
+          <a href="sweet-tooth.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">AÇÃO</div>
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <h4>Cobra Kai</h4>
+          <p>Ação • 2018</p>
+          <a href="cobra-kai.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">ROMANCE</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton</h4>
+          <p>Romance • 2020</p>
+          <a href="bridgerton.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">ANIMAÇÃO</div>
+          <img src="APrincesaMononoke.jpg" alt="Princesa Mononoke">
+          <h4>A Princesa Mononoke</h4>
+          <p>Animação • 1997</p>
+          <a href="PrincesaMononoke.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== RODAPÉ DA PÁGINA ===== -->
+  <footer>
+    <p>© 2025 TimiCini - Todos os direitos reservados</p>
+    <p>Esta é uma página demonstrativa criada para fins educacionais</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Fechar menu do logo ao clicar fora dele
+      document.addEventListener('click', function(event) {
+        const logoMenu = document.querySelector('.logo-menu');
+        const logoContainer = document.querySelector('.logo-container');
+        const menuToggle = document.getElementById('logo-menu-toggle');
+        
+        if (!logoContainer.contains(event.target) && menuToggle.checked) {
+          menuToggle.checked = false;
+        }
+      });
+
+      // Adicionar efeito de clique nos cards
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.addEventListener('click', function() {
+          const title = this.querySelector('h4').textContent;
+          alert(`Abrindo página da série: ${title}`);
+        });
+      });
+
+      // Efeito de hover nos itens do top 10
+      const topItems = document.querySelectorAll('.top-item');
+      topItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateX(10px)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateX(0)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

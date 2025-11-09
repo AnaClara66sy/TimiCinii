@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Lista - Studio Ghibli</title>
+  <style>
+    /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a1a35, #0c2340, #1e3a5f);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== CABEÇALHO ===== */
+    header {
+      background: rgba(12, 35, 64, 0.95);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a4a75;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo {
+      font-size: 28px;
+      color: #fff679;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    
+    .top-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .top-nav a:hover {
+      color: #4a9fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .search-icon {
+      font-size: 18px;
+      color: #fff;
+      transition: all 0.3s;
+    }
+
+    /* ===== CONTEÚDO PRINCIPAL ===== */
+    .main-content {
+      margin-top: 80px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== BANNER MINHA LISTA ===== */
+    .minha-lista-banner {
+      text-align: center;
+      padding: 40px 20px;
+      margin-bottom: 40px;
+      background: rgba(30, 58, 95, 0.3);
+      border-radius: 16px;
+      border: 1px solid #2a4a75;
+    }
+    
+    .minha-lista-banner h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .minha-lista-banner p {
+      font-size: 18px;
+      color: #b8d4ff;
+    }
+
+    /* ===== CONTADOR DE FILMES ===== */
+    .contador-filmes {
+      background: rgba(42, 128, 178, 0.2);
+      padding: 15px 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      text-align: center;
+      border: 1px solid #4a9fff;
+    }
+    
+    .contador-filmes span {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4a9fff;
+    }
+
+    /* ===== GRID DE FILMES ===== */
+    .filmes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 20px 0;
+    }
+
+    /* ===== CARD DE FILME ===== */
+    .filme-card {
+      background: rgba(30, 58, 95, 0.7);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      border: 1px solid #2a4a75;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+    
+    .filme-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(74, 159, 255, 0.4);
+      border-color: #4a9fff;
+    }
+    
+    .filme-imagem {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .filme-card:hover .filme-imagem {
+      transform: scale(1.05);
+    }
+    
+    .filme-info {
+      padding: 20px;
+    }
+    
+    .filme-titulo {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    
+    .filme-descricao {
+      font-size: 14px;
+      color: #b8d4ff;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    
+    .filme-detalhes {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 13px;
+      color: #8bb4ff;
+    }
+    
+    .filme-ano {
+      background: rgba(74, 159, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    /* ===== BOTÕES DE AÇÃO ===== */
+    .acoes-filme {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn-assistir {
+      flex: 1;
+      background: #4a9fff;
+      color: white;
+      padding: 10px;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 8px;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+    
+    .btn-assistir:hover {
+      background: #2a80b2;
+      transform: translateY(-2px);
+    }
+    
+    .btn-remover {
+      background: rgba(229, 9, 20, 0.3);
+      color: #ff6b6b;
+      border: 1px solid #ff6b6b;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn-remover:hover {
+      background: rgba(229, 9, 20, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* ===== BADGE STUDIO GHIBLI ===== */
+    .ghibli-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 215, 0, 0.9);
+      color: #0a1a35;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ===== MENSAGEM VAZIA ===== */
+    .mensagem-vazia {
+      text-align: center;
+      padding: 60px 20px;
+      background: rgba(30, 58, 95, 0.5);
+      border-radius: 16px;
+      border: 2px dashed #2a4a75;
+      margin: 40px 0;
+    }
+    
+    .mensagem-vazia h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #b8d4ff;
+    }
+    
+    .mensagem-vazia p {
+      color: #8bb4ff;
+      margin-bottom: 20px;
+    }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      background: #0c2340;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+      border-top: 1px solid #1e3a5f;
+      color: #b8d4ff;
+    }
+
+    /* ===== ANIMAÇÕES ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .filme-card {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .filme-card:nth-child(1) { animation-delay: 0.1s; }
+    .filme-card:nth-child(2) { animation-delay: 0.2s; }
+    .filme-card:nth-child(3) { animation-delay: 0.3s; }
+    .filme-card:nth-child(4) { animation-delay: 0.4s; }
+    .filme-card:nth-child(5) { animation-delay: 0.5s; }
+
+    /* ===== RESPONSIVIDADE ===== */
+    @media (max-width: 768px) {
+      .filmes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      
+      .minha-lista-banner h1 {
+        font-size: 32px;
+      }
+      
+      .top-nav {
+        gap: 15px;
+      }
+      
+      .top-nav a {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .filmes-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .main-content {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== CABEÇALHO ===== -->
+  <header>
+    <div class="logo">TimiCini</div>
+    
+    <div class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="series.html">Séries</a>
+      <a href="filmes.html">Filmes</a>
+      <a href="bombando.html">Bombando</a>
+      <a href="minhalista.html" style="color: #4a9fff;">Minha Lista</a>
+      <a href="pesquisa.html" class="search-icon">&#128269;</a>
+    </div>
+  </header>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <div class="main-content">
+    <!-- ===== BANNER MINHA LISTA ===== -->
+    <section class="minha-lista-banner">
+      <h1>Minha Lista</h1>
+      <p>Seus filmes favoritos do Studio Ghibli</p>
+    </section>
+
+    <!-- ===== CONTADOR DE FILMES ===== -->
+    <div class="contador-filmes">
+      <span>5 filmes</span> na sua lista
+    </div>
+
+    <!-- ===== GRID DE FILMES ===== -->
+    <div class="filmes-grid">
+      <!-- A Viagem de Chihiro -->
+      <div class="filme-card">
+        <div class="ghibli-badge">Studio Ghibli</div>
+        <img src="viagemDeChihiro.webp" alt="A Viagem de Chihiro" class="filme-imagem">
+        <div class="filme-info">
+          <h3 class="filme-titulo">A Viagem de Chihiro</h3>
+          <p class="filme-descricao">Chihiro e seus pais se deparam com um mundo misterioso dominado por deuses, bruxas e espíritos, onde humanos não são bem-vindos.</p>
+          <div class="filme-detalhes">
+            <span class="filme-ano">2001</span>
+            <span>★ 8.6/10</span>
+          </div>
+          <div class="acoes-filme">
+            <a href="ViagemChihiro.html" class="btn-assistir">▶ Assistir</a>
+            <button class="btn-remover">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Porco Rosso -->
+      <div class="filme-card">
+        <div class="ghibli-badge">Studio Ghibli</div>
+        <img src="PorcoRosso.webp" alt="Porco Rosso" class="filme-imagem">
+        <div class="filme-info">
+          <h3 class="filme-titulo">Porco Rosso</h3>
+          <p class="filme-descricao">Um piloto de caça italiano da Primeira Guerra Mundial é transformado em um porco e combate piratas aéreos no Adriático.</p>
+          <div class="filme-detalhes">
+            <span class="filme-ano">1992</span>
+            <span>★ 7.7/10</span>
+          </div>
+          <div class="acoes-filme">
+            <a href="porcoRosso.html" class="btn-assistir">▶ Assistir</a>
+            <button class="btn-remover">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Castelo no Céu -->
+      <div class="filme-card">
+        <div class="ghibli-badge">Studio Ghibli</div>
+        <img src="CasteloNoCeu.png" alt="Castelo no Céu" class="filme-imagem">
+        <div class="filme-info">
+          <h3 class="filme-titulo">Castelo no Céu</h3>
+          <p class="filme-descricao">Pazu e Sheeta embarcam em uma aventura para encontrar Laputa, um misterioso castelo flutuante no céu.</p>
+          <div class="filme-detalhes">
+            <span class="filme-ano">1986</span>
+            <span>★ 8.0/10</span>
+          </div>
+          <div class="acoes-filme">
+            <a href="CasteloNoCeu.html" class="btn-assistir">▶ Assistir</a>
+            <button class="btn-remover">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Castelo Animado -->
+      <div class="filme-card">
+        <div class="ghibli-badge">Studio Ghibli</div>
+        <img src="casteloAnimado.jpg" alt="Castelo Animado" class="filme-imagem">
+        <div class="filme-info">
+          <h3 class="filme-titulo">Castelo Animado</h3>
+          <p class="filme-descricao">Sophie é transformada em uma idosa por uma bruxa e encontra refúgio no castelo ambulante do misterioso Howl.</p>
+          <div class="filme-detalhes">
+            <span class="filme-ano">2004</span>
+            <span>★ 8.2/10</span>
+          </div>
+          <div class="acoes-filme">
+            <a href="CasteloAnimado.html" class="btn-assistir">▶ Assistir</a>
+            <button class="btn-remover">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ponyo -->
+      <div class="filme-card">
+        <div class="ghibli-badge">Studio Ghibli</div>
+        <img src="Ponyo.webp" alt="Ponyo" class="filme-imagem">
+        <div class="filme-info">
+          <h3 class="filme-titulo">Ponyo</h3>
+          <p class="filme-descricao">Um peixinho dourado chamado Ponyo deseja se tornar humana após conhecer um menino chamado Sōsuke.</p>
+          <div class="filme-detalhes">
+            <span class="filme-ano">2008</span>
+            <span>★ 7.7/10</span>
+          </div>
+          <div class="acoes-filme">
+            <a href="Ponyo.html" class="btn-assistir">▶ Assistir</a>
+            <button class="btn-remover">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MENSAGEM DE CONTINUAÇÃO ===== -->
+    <div class="mensagem-vazia">
+      <h3>Continue Explorando</h3>
+      <p>Adicione mais filmes incríveis do Studio Ghibli à sua lista</p>
+      <a href="https://studioghibli.com.br/filmografia/" target="_blank" class="btn-assistir" style="display: inline-block; width: auto; padding: 12px 24px;">
+        Explorar Studio Ghibli
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer>
+    © 2025 TimiCini - Todos os direitos reservados
+  </footer>
+
+  <script>
+    // Script para funcionalidade de remover filmes
+    document.addEventListener('DOMContentLoaded', function() {
+      const botoesRemover = document.querySelectorAll('.btn-remover');
+      
+      botoesRemover.forEach(botao => {
+        botao.addEventListener('click', function() {
+          const card = this.closest('.filme-card');
+          const titulo = card.querySelector('.filme-titulo').textContent;
+          
+          if (confirm(`Remover "${titulo}" da sua lista?`)) {
+            card.style.animation = 'fadeOut 0.5s ease-out';
+            setTimeout(() => {
+              card.remove();
+              atualizarContador();
+            }, 500);
+          }
+        });
+      });
+      
+      function atualizarContador() {
+        const contador = document.querySelector('.contador-filmes span');
+        const filmesRestantes = document.querySelectorAll('.filme-card').length;
+        contador.textContent = `${filmesRestantes} filmes`;
+        
+        // Adiciona animação CSS para fadeOut
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(20px); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    });
+  </script>
+</body>
+</html>

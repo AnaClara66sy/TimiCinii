@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimiCini - Quem está assistindo?</title>
+    <style>
+        /* Reset básico para remover margens e preenchimentos padrão */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Estilo do corpo da página */
+        body {
+            background: linear-gradient(135deg, #0c2461, #1e3799, #4a69bd);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Container principal que centraliza todo o conteúdo */
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        /* Estilo do logo da TimiCini */
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #fff679;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Estilo do título principal */
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Container para os perfis */
+        .profiles-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        /* Estilo de cada perfil individual - AGORA É UM LINK */
+        .profile-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none; /* Remove sublinhado dos links */
+            color: inherit; /* Herda a cor do texto do elemento pai */
+        }
+
+        /* Efeito de hover nos perfis */
+        .profile-link:hover {
+            transform: scale(1.05);
+        }
+
+        /* Estilo da imagem do perfil */
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #1e3799, #4a69bd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            border: 3px solid #4a69bd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Estilo do nome do perfil */
+        .profile-name {
+            font-size: 1.3rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin-bottom: 5px;
+        }
+
+        /* Estilo da badge "Infantil" */
+        .kids-badge {
+            background-color: #1e3799;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            border: 1px solid #4a69bd;
+        }
+
+        /* Estilo do botão "Gerenciar perfis" */
+        .manage-profiles {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: transparent;
+            color: #a4b0be;
+            border: 1px solid #4a69bd;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none; /* Remove sublinhado dos links */
+            display: inline-block;
+        }
+
+        /* Efeito de hover no botão "Gerenciar perfis" */
+        .manage-profiles:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Estilos responsivos para telas menores */
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Container principal da página -->
+    <div class="container">
+        <!-- Logo da TimiCini -->
+        <div class="logo">TimiCini</div>
+        
+        <!-- Título principal da página -->
+        <h1 class="title">Quem está assistindo agora?</h1>
+        
+        <!-- Container para os perfis -->
+        <div class="profiles-container">
+            <a href="index.html" class="profile-link">
+                <!-- Imagem do perfil -->
+                <div class="profile-image">
+                    <!-- Ícone SVG do avatar -->
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#a4b0be"/>
+                        <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="#a4b0be"/>
+                    </svg>
+                </div>
+                <!-- Nome do perfil -->
+                <div class="profile-name">Clara</div>
+
+            </a>
+        </div>
+        
+        <!-- Botão "Gerenciar perfis" - link clicável -->
+        <a href="#" class="manage-profiles">Gerenciar perfis</a>
+    </div>
+
+    <!-- <script>
+        // Script para debug - verificar se o link está funcionando
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileLink = document.querySelector('.profile-link');
+            
+            profileLink.addEventListener('click', function(e) {
+                console.log('Perfil clicado! Redirecionando para:', this.getAttribute('href'));
+                // O navegador seguirá automaticamente para o href
+            });
+            
+            // Verificar se o arquivo index.html existe
+            fetch('index.html')
+                .then(response => {
+                    if (response.ok) {
+                        console.log('index.html encontrado com sucesso');
+                    } else {
+                        console.log('index.html não encontrado - status:', response.status);
+                    }
+                })
+                .catch(error => {
+                    console.log('Erro ao verificar index.html:', error);
+                });
+        });
+    </script> -->
+</body>
+</html>

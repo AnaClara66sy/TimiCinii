@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre Timie - TimiCini</title>
+  <style>
+    /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background: #0a1a35;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== CABEÇALHO ===== */
+    header {
+      background: rgba(12, 35, 64, 0.95);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e3a5f;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo-container {
+      position: relative;
+    }
+    
+    .logo {
+      margin: 0;
+      font-size: 28px;
+      color: #fff679;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .logo:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .top-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .top-nav a:hover {
+      color: #4a9fff;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .sobre-mim-btn {
+      background: linear-gradient(135deg, #4a9fff, #2a80b2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .sobre-mim-btn:hover {
+      background: linear-gradient(135deg, #2a80b2, #4a9fff);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 159, 255, 0.4);
+    }
+
+    .search-icon {
+      font-size: 18px;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.3s;
+    }
+
+    .search-icon:hover {
+      color: #4a9fff;
+      transform: scale(1.1);
+    }
+
+    /* ===== CONTEÚDO PRINCIPAL ===== */
+    .main-content {
+      margin-top: 80px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #0c2340, #1e3a5f);
+      border-radius: 16px;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      margin-bottom: 10px;
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: 22px;
+      color: #b8d4ff;
+      margin-bottom: 20px;
+    }
+
+    .hero-tagline {
+      font-size: 18px;
+      color: #4a9fff;
+      font-style: italic;
+    }
+
+    .hero-decoration {
+      position: absolute;
+      font-size: 120px;
+      opacity: 0.05;
+      z-index: 1;
+    }
+
+    .hero-decoration:nth-child(1) {
+      top: 20px;
+      left: 5%;
+    }
+
+    .hero-decoration:nth-child(2) {
+      bottom: 20px;
+      right: 5%;
+    }
+
+    /* ===== SOBRE MIM SECTION ===== */
+    .about-section {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+      margin-bottom: 50px;
+      align-items: start;
+    }
+
+    .profile-image {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .about-content {
+      background: rgba(30, 58, 95, 0.7);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid #2a4a75;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #4a9fff;
+      border-left: 4px solid #4a9fff;
+      padding-left: 15px;
+    }
+
+    .about-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #e6f0ff;
+      margin-bottom: 20px;
+    }
+
+    .highlight-box {
+      background: rgba(74, 159, 255, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #4a9fff;
+      margin: 20px 0;
+    }
+
+    /* ===== CURIOSIDADES ===== */
+    .curiosidades-section {
+      margin-bottom: 50px;
+    }
+
+    .curiosidades-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .curiosidade-card {
+      background: rgba(30, 58, 95, 0.7);
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #2a4a75;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .curiosidade-card:hover {
+      transform: translateY(-5px);
+      border-color: #4a9fff;
+    }
+
+    .curiosidade-icon {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: #4a9fff;
+    }
+
+    .curiosidade-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .curiosidade-text {
+      font-size: 14px;
+      color: #b8d4ff;
+      line-height: 1.5;
+    }
+
+    /* ===== TRADIÇÃO SECTION ===== */
+    .tradicao-section {
+      background: rgba(30, 58, 95, 0.7);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid #2a4a75;
+      margin-bottom: 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tradicao-section::before {
+      content: "🌸";
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      opacity: 0.3;
+    }
+
+    .tradicao-section::after {
+      content: "🌸";
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      font-size: 24px;
+      opacity: 0.3;
+    }
+
+    .tradicao-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tradicao-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #4a9fff;
+    }
+
+    .tradicao-name {
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .tradicao-subtitle {
+      font-size: 16px;
+      color: #b8d4ff;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .tradicao-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #e6f0ff;
+      margin-bottom: 20px;
+    }
+
+    .tradicao-ritual {
+      background: rgba(74, 159, 255, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #4a9fff;
+      margin-top: 20px;
+    }
+
+    .ritual-step {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding: 10px;
+    }
+
+    .ritual-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .ritual-icon {
+      font-size: 24px;
+      color: #4a9fff;
+      min-width: 40px;
+    }
+
+    .ritual-text {
+      font-size: 14px;
+      color: #e6f0ff;
+      text-align: left;
+    }
+
+    /* ===== GALERIA ===== */
+    .galeria-section {
+      margin-bottom: 50px;
+    }
+
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .galeria-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      transition: all 0.3s;
+    }
+
+    .galeria-item:hover {
+      transform: scale(1.05);
+    }
+
+    .galeria-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: linear-gradient(45deg, #1e3a5f, #2a4a75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4a9fff;
+      font-size: 14px;
+    }
+
+    .galeria-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    /* ===== PASSION SECTION ===== */
+    .passion-section {
+      margin-bottom: 50px;
+    }
+
+    .passion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .passion-card {
+      background: rgba(30, 58, 95, 0.7);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #2a4a75;
+      transition: all 0.3s;
+    }
+
+    .passion-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(74, 159, 255, 0.3);
+      border-color: #4a9fff;
+    }
+
+    .passion-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .passion-content {
+      padding: 20px;
+    }
+
+    .passion-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .passion-description {
+      font-size: 14px;
+      color: #b8d4ff;
+      line-height: 1.5;
+    }
+
+    /* ===== CONTATO ===== */
+    .contact-section {
+      background: rgba(30, 58, 95, 0.7);
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid #2a4a75;
+      text-align: center;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: #4a9fff;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+
+    .contact-link:hover {
+      background: #2a80b2;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(74, 159, 255, 0.4);
+    }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      background: #0c2340;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+      border-top: 1px solid #1e3a5f;
+      color: #b8d4ff;
+    }
+
+    /* ===== ANIMAÇÕES ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-section,
+    .about-section,
+    .curiosidades-section,
+    .tradicao-section,
+    .galeria-section,
+    .passion-section,
+    .contact-section {
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    /* ===== RESPONSIVIDADE ===== */
+    @media (max-width: 768px) {
+      .about-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .hero-title {
+        font-size: 36px;
+      }
+      
+      .passion-grid,
+      .curiosidades-grid,
+      .galeria-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-links {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .contact-link {
+        width: 200px;
+        justify-content: center;
+      }
+      
+      .ritual-step {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .top-nav {
+        gap: 10px;
+      }
+      
+      .top-nav a {
+        font-size: 14px;
+        padding: 4px 8px;
+      }
+      
+      .tradicao-name {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== CABEÇALHO ===== -->
+  <header>
+    <div class="logo-container">
+      <a href="index.html" class="logo">TimiCini</a>
+    </div>
+    
+    <div class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="series.html">Séries</a>
+      <a href="filmes.html">Filmes</a>
+      <a href="bombando.html">Bombando</a>
+      <a href="minhalista.html">Minha Lista</a>
+      <a href="sobre-mim.html" class="sobre-mim-btn">Sobre Mim</a>
+      <a href="pesquisa.html" class="search-icon">&#128269;</a>
+    </div>
+  </header>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <div class="main-content">
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero-section">
+      <div class="hero-decoration">🌸</div>
+      <div class="hero-decoration">💙</div>
+      <h1 class="hero-title">Timie (Ana Clara)</h1>
+      <p class="hero-subtitle">Extrovertida • Guardiã de Tradições • Artista da vida</p>
+      <p class="hero-tagline">"388 tons de azul e um coração que sempre tem espaço para mais um!"</p>
+    </section>
+
+    <!-- ===== SOBRE MIM ===== -->
+    <section class="about-section">
+      <div>
+        <img src="foto-perfil.jpg" alt="Timie - Ana Clara" class="profile-image">
+      </div>
+      
+      <div class="about-content">
+        <h2 class="section-title">Minha História</h2>
+        <p class="about-text">
+          Olá! Sou a Ana Clara, mas todo mundo me conhece como <strong>Timie</strong> - um apelido que nasceu 
+          do meu antigo sobrenome e acabou se tornando minha identidade. Sou uma mistura vibrante de 
+          descendência japonesa e africana, uma combinação que reflete perfeitamente minha personalidade 
+          explosiva e acolhedora.
+        </p>
+        <p class="about-text">
+          Minha jornada começou de forma única - fui "adotada" pela minha própria família biológica, 
+          uma experiência que me ensinou desde cedo que o amor não precisa de explicações. Passei 
+          incríveis 6 anos da minha vida em silêncio, observando o mundo antes de encontrar minha voz - 
+          e quando finalmente falei, nunca mais parei!
+        </p>
+        
+        <div class="highlight-box">
+          <p class="about-text">
+            <strong>Uma visão única:</strong> Tenho uma relação especial com a visão - não tenho boa parte da minha visão periférica, 
+            o que significa que enxergo o mundo de forma mais focada e intensa. Enquanto algumas pessoas 
+            veem "o quadro completo", eu vejo os detalhes que realmente importam. Essa característica 
+            me permite identificar <strong>388 tons de azul</strong> extremamente parecidos - o azul não é apenas uma cor 
+            para mim, é uma paixão, uma obsessão, uma linguagem própria.
+          </p>
+        </div>
+        
+        <p class="about-text">
+          Hoje sou completamente extrovertida, falante e cheia de energia. Minha paixão por crianças 
+          e animais me levou a trabalhar voluntariamente em creches e orfanatos, onde descubro 
+          diariamente que os maiores tesouros da vida vêm nos pacotes mais pequenos.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== CURIOSIDADES ===== -->
+    <section class="curiosidades-section">
+      <h2 class="section-title">Curiosidades Sobre Mim</h2>
+      <div class="curiosidades-grid">
+        <div class="curiosidade-card">
+          <div class="curiosidade-icon">⛸️</div>
+          <h3 class="curiosidade-title">Patinação no Gelo</h3>
+          <p class="curiosidade-text">
+            Deslizar sobre o gelo é minha meditação em movimento. Mesmo com minha visão focada, 
+            encontrei no gelo uma liberdade única. Cada movimento é uma dança congelada no tempo.
+          </p>
+        </div>
+        
+        <div class="curiosidade-card">
+          <div class="curiosidade-icon">💃</div>
+          <h3 class="curiosidade-title">Samba Rock</h3>
+          <p class="curiosidade-text">
+            Dou aulas de dança de samba rock e sou muito próxima da comunidade LSB. 
+            A dança é minha forma de conectar pessoas e espalhar alegria através do movimento.
+          </p>
+        </div>
+        
+        <div class="curiosidade-card">
+          <div class="curiosidade-icon">🏓</div>
+          <h3 class="curiosidade-title">Tênis de Mesa</h3>
+          <p class="curiosidade-text">
+            Minha visão focada se tornou uma vantagem no tênis de mesa! A velocidade, a estratégia 
+            e a precisão do esporte capturaram completamente minha atenção e energia competitiva.
+          </p>
+        </div>
+        
+        <div class="curiosidade-card">
+          <div class="curiosidade-icon">🎨</div>
+          <h3 class="curiosidade-title">Arte & Cores</h3>
+          <p class="curiosidade-text">
+            Minha percepção única de cores me permite criar arte com nuances que a maioria nem imagina existir. 
+            Cada tom de azul conta uma história diferente para mim.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRADIÇÃO FAMILIAR ===== -->
+    <section class="tradicao-section">
+      <div class="tradicao-content">
+        <div class="tradicao-icon">🌸</div>
+        <h2 class="tradicao-name">SetuTanakawa</h2>
+        <p class="tradicao-subtitle">A Tradição das Boas-Vindas Eternas</p>
+        
+        <p class="tradicao-text">
+          Uma das heranças mais preciosas da minha família é a tradição <strong>SetuTanakawa</strong>, 
+          que significa "porta sempre aberta" na nossa mistura cultural. É um ritual de acolhimento 
+          que pratico com todas as pessoas que amo e quero que permaneçam na minha vida.
+        </p>
+        
+        <div class="tradicao-ritual">
+          <h3 style="color: #fff; margin-bottom: 20px; text-align: center;">O Ritual das Sextas-Feiras</h3>
+          
+          <div class="ritual-step">
+            <div class="ritual-icon">📅</div>
+            <div class="ritual-text">
+              <strong>Toda sexta-feira</strong> é um dia especial de renovação dos laços
+            </div>
+          </div>
+          
+          <div class="ritual-step">
+            <div class="ritual-icon">💝</div>
+            <div class="ritual-text">
+              Convido as pessoas a passarem <strong>mais tempo na minha vida</strong>
+            </div>
+          </div>
+          
+          <div class="ritual-step">
+            <div class="ritual-icon">😘</div>
+            <div class="ritual-text">
+              Dou um <strong>beijo na bochecha</strong> como símbolo desse convite especial
+            </div>
+          </div>
+        </div>
+        
+        <p class="tradicao-text" style="margin-top: 25px;">
+          O SetuTanakawa não é apenas uma tradição - é a essência de como vejo as relações humanas. 
+          Cada beijo na bochecha é uma promessa silenciosa de que há sempre espaço para mais amor, 
+          mais amizade e mais histórias compartilhadas na minha vida.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== GALERIA ===== -->
+    <section class="galeria-section">
+      <h2 class="section-title">Minha Galeria</h2>
+      <div class="galeria-grid">
+        <div class="galeria-item">
+          <div class="galeria-img">[IMG1] Patinação no Gelo</div>
+          <div class="galeria-caption">Deslizando na pista de gelo</div>
+        </div>
+        
+        <div class="galeria-item">
+          <div class="galeria-img">[IMG2] Projetos Sociais</div>
+          <div class="galeria-caption">Com crianças em orfanatos</div>
+        </div>
+        
+        <div class="galeria-item">
+          <div class="galeria-img">[IMG3] Aulas de Dança</div>
+          <div class="galeria-caption">Ensinando samba rock</div>
+        </div>
+        
+        <div class="galeria-item">
+          <div class="galeria-img">[IMG4] Tênis de Mesa</div>
+          <div class="galeria-caption">Competindo no ping pong</div>
+        </div>
+        
+        <div class="galeria-item">
+          <div class="galeria-img">[IMG5] Momentos SetuTanakawa</div>
+          <div class="galeria-caption">Celebrando amizades</div>
+        </div>
+        
+        <div class="galeria-item">
+          <div class="galeria-img">[IMG6] Vida Cotidiana</div>
+          <div class="galeria-caption">Meus momentos especiais</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MINHAS PAIXÕES ===== -->
+    <section class="passion-section">
+      <h2 class="section-title">Minhas Paixões</h2>
+      <div class="passion-grid">
+        <div class="passion-card">
+          <div class="passion-image" style="background: linear-gradient(45deg, #1e3a5f, #4a9fff);"></div>
+          <div class="passion-content">
+            <h3 class="passion-title">Crianças & Animais</h3>
+            <p class="passion-description">
+              Trabalho voluntário em creches e orfanatos é minha terapia. Ver o sorriso 
+              de uma criança ou a lealdade de um animal é o que dá sentido aos meus dias.
+            </p>
+          </div>
+        </div>
+        
+        <div class="passion-card">
+          <div class="passion-image" style="background: linear-gradient(45deg, #2a4a75, #4a9fff);"></div>
+          <div class="passion-content">
+            <h3 class="passion-title">Arte & Cores</h3>
+            <p class="passion-description">
+              Minha visão única me permite perceber nuances que a maioria nem imagina existir. 
+              Cada tom de azul conta uma história diferente para mim.
+            </p>
+          </div>
+        </div>
+        
+        <div class="passion-card">
+          <div class="passion-image" style="background: linear-gradient(45deg, #1e3a5f, #2a80b2);"></div>
+          <div class="passion-content">
+            <h3 class="passion-title">Conexões Humanas</h3>
+            <p class="passion-description">
+              Através do SetuTanakawa, cultivo relacionamentos profundos. Acredito que 
+              cada pessoa que entra na nossa vida merece uma porta sempre aberta.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTATO ===== -->
+    <section class="contact-section">
+      <h2 class="section-title">Vamos Conversar?</h2>
+      <p style="color: #b8d4ff; margin-bottom: 20px;">
+        Adoro conhecer pessoas novas e compartilhar experiências! 
+        Se você também ama crianças, animais, esportes ou simplesmente quer bater um papo...
+      </p>
+      <div class="contact-links">
+        <a href="mailto:ana.costa@germinare.org.br" class="contact-link">
+          <span>📧</span> E-mail
+        </a>
+        <a href="https://instagram.com/anaayzee" class="contact-link" target="_blank">
+          <span>📱</span> Instagram
+        </a>
+        <a href="https://wa.me/55119806073812" class="contact-link" target="_blank">
+          <span>💬</span> WhatsApp
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer>
+    <p>© 2025 TimiCini Clone - Projeto desenvolvido com ❤️ por Timie (Ana Clara)</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Efeito de hover nos cards
+      const cards = document.querySelectorAll('.curiosidade-card, .passion-card, .galeria-item');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+
+      // Animação de entrada suave
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      // Observar elementos para animação
+      const animatedElements = document.querySelectorAll('.about-section, .curiosidades-section, .tradicao-section, .galeria-section, .passion-section, .contact-section');
+      animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease-out';
+        observer.observe(el);
+      });
+
+      // Verificar se é sexta-feira e mostrar mensagem especial
+      const today = new Date();
+      if (today.getDay() === 5) { // 5 = sexta-feira
+        const heroSection = document.querySelector('.hero-section');
+        const fridayMessage = document.createElement('div');
+        fridayMessage.innerHTML = `
+          <div style="background: rgba(74, 159, 255, 0.3); padding: 15px; border-radius: 10px; margin-top: 20px; border: 2px solid #4a9fff;">
+            <p style="margin: 0; font-size: 16px; color: #fff;">
+              <strong>🎉 Hoje é sexta-feira! </strong> Dia de SetuTanakawa - estou de portas abertas para novas amizades! 🌸
+            </p>
+          </div>
+        `;
+        heroSection.appendChild(fridayMessage);
+      }
+    });
+  </script>
+</body>
+</html>

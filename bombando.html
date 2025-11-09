@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimiCini - Bombando</title>
+  <style>
+    /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background: #0a1a35;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== CABEÇALHO ===== */
+    header {
+      background: rgba(12, 35, 64, 0.95);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e3a5f;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo-container {
+      position: relative;
+    }
+    
+    .logo {
+      margin: 0;
+      font-size: 28px;
+      color: #e50914;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .logo:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    /* ===== MENU DO LOGO ===== */
+    .logo-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(12, 35, 64, 0.95);
+      border: 1px solid #1e3a5f;
+      border-radius: 8px;
+      padding: 10px 0;
+      min-width: 200px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
+    
+    #logo-menu-toggle:checked ~ .logo-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .logo-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+      border-bottom: 1px solid rgba(30, 58, 95, 0.5);
+    }
+    
+    .logo-menu a:hover {
+      background: rgba(74, 159, 255, 0.2);
+      color: #4a9fff;
+      padding-left: 25px;
+    }
+    
+    .logo-menu a:last-child {
+      border-bottom: none;
+    }
+    
+    #logo-menu-toggle {
+      display: none;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    
+    .top-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .top-nav a:hover {
+      color: #4a9fff;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .search-icon {
+      font-size: 18px;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.3s;
+    }
+
+    .search-icon:hover {
+      color: #4a9fff;
+      transform: scale(1.1);
+    }
+
+    /* ===== CONTEÚDO PRINCIPAL ===== */
+    .main-content {
+      margin-top: 80px;
+      padding: 20px;
+    }
+
+    /* ===== BANNER DE BOAS-VINDAS ===== */
+    .welcome-banner {
+      padding: 40px 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      background: linear-gradient(135deg, #0c2340, #1e3a5f);
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-out;
+    }
+    
+    .welcome-banner h2 {
+      font-size: 42px;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .welcome-banner p {
+      font-size: 22px;
+      color: #b8d4ff;
+    }
+
+    /* ===== SEÇÕES ===== */
+    .brasil-section,
+    .mundo-section,
+    .top10-section,
+    .tendencias-section,
+    .redes-section,
+    .lancamentos-section {
+      margin-bottom: 50px;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 25px;
+      color: #fff;
+      border-left: 6px solid #4a9fff;
+      padding-left: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ===== GRID DE CONTEÚDO ===== */
+    .grid {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 10px 5px;
+      scrollbar-width: thin;
+      scrollbar-color: #4a9fff #1e3a5f;
+    }
+
+    .grid::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .grid::-webkit-scrollbar-track {
+      background: #1e3a5f;
+      border-radius: 10px;
+    }
+
+    .grid::-webkit-scrollbar-thumb {
+      background: #4a9fff;
+      border-radius: 10px;
+    }
+
+    .card {
+      background: #1e3a5f;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 200px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      border: 1px solid #2a4a75;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(74, 159, 255, 0.4);
+      z-index: 10;
+    }
+    
+    .card img {
+      width: 100%;
+      display: block;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .card h4 {
+      margin: 15px 10px 5px;
+      font-size: 16px;
+      color: #fff;
+      font-weight: bold;
+    }
+    
+    .card p {
+      margin: 0 10px 10px;
+      font-size: 13px;
+      color: #b8d4ff;
+    }
+
+    .new-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #e50914;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .trending-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #ff6b00;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .card a {
+      display: block;
+      text-align: center;
+      background: #4a9fff;
+      color: #fff;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 0 0 12px 12px;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+    
+    .card a:hover {
+      background: #2a80b2;
+      letter-spacing: 1px;
+    }
+
+    /* ===== LISTA DO TOP 10 ===== */
+    .top-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .top-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      background: rgba(30, 58, 95, 0.7);
+      position: relative;
+    }
+    
+    .top-item:hover {
+      background: rgba(42, 128, 178, 0.3);
+      transform: translateX(10px);
+    }
+
+    .top-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4a9fff;
+      min-width: 30px;
+    }
+    
+    .top-item img {
+      width: 70px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      transition: transform 0.3s;
+    }
+
+    .top-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .top-item-content {
+      flex: 1;
+    }
+    
+    .top-item-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    
+    .top-item-desc {
+      font-size: 14px;
+      color: #b8d4ff;
+    }
+
+    /* ===== DESTAQUES ===== */
+    .highlight-section {
+      background: rgba(30, 58, 95, 0.7);
+      padding: 30px;
+      margin: 20px 0;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border-left: 6px solid #4a9fff;
+      animation: pulse 2s infinite;
+    }
+    
+    .highlight-title {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .highlight-desc {
+      font-size: 18px;
+      color: #b8d4ff;
+      margin-bottom: 20px;
+    }
+
+    /* ===== DIVISORES ===== */
+    .divider {
+      height: 2px;
+      background: linear-gradient(to right, transparent, #2a4a75, transparent);
+      margin: 40px 0;
+    }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      background: #0c2340;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 14px;
+      color: #b8d4ff;
+      margin-top: 50px;
+      border-top: 1px solid #1e3a5f;
+    }
+
+    /* ===== BOTÕES DE NAVEGAÇÃO ===== */
+    .nav-button {
+      display: inline-block;
+      background: #4a9fff;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 10px 5px;
+      transition: all 0.3s;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .nav-button:hover {
+      background: #2a80b2;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ===== ANIMAÇÕES ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { 
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(74, 159, 255, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(74, 159, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(74, 159, 255, 0); }
+    }
+
+    /* ===== BOTÃO VER TODOS ===== */
+    .see-all {
+      background: transparent;
+      color: #4a9fff;
+      border: 1px solid #4a9fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .see-all:hover {
+      background: #4a9fff;
+      color: white;
+    }
+
+    /* ===== INDICADOR DE TENDÊNCIA ===== */
+    .trend-indicator {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+
+    .trend-up {
+      background: #00c853;
+      color: white;
+    }
+
+    .trend-down {
+      background: #ff1744;
+      color: white;
+    }
+
+    .trend-new {
+      background: #ff9100;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== CABEÇALHO DA PÁGINA ===== -->
+  <header>
+    <div class="logo-container">
+      <input type="checkbox" id="logo-menu-toggle">
+      <label for="logo-menu-toggle" class="logo">TimiCini</label>
+      <div class="logo-menu">
+        <a href="inicio.html">Página Inicial</a>
+        <a href="minha-conta.html">Minha Conta</a>
+        <a href="configuracoes.html">Configurações</a>
+        <a href="ajuda.html">Central de Ajuda</a>
+        <a href="sair.html">Sair</a>
+      </div>
+    </div>
+    
+    <div class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="series.html">Séries</a>
+      <a href="filmes.html">Filmes</a>
+      <a href="bombando.html" style="color: #4a9fff; font-weight: bold;">Bombando</a>
+      <a href="minhalista.html">Minha Lista</a>
+      <a href="pesquisa.html" class="search-icon">&#128269;</a>
+    </div>
+  </header>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <div class="main-content">
+    <!-- ===== BANNER DE BOAS-VINDAS ===== -->
+    <section class="welcome-banner">
+      <h2>O Que Está Bombando</h2>
+      <p>Descubra o que todo mundo está assistindo agora</p>
+    </section>
+
+    <!-- ===== SEÇÃO "BOMBANDO NO BRASIL" ===== -->
+    <section class="brasil-section">
+      <div class="section-title">
+        <h3>Bombando no Brasil</h3>
+        <a href="brasil.html" class="see-all">Ver Todos</a>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="trending-badge">🔥 #1</div>
+          <div class="new-badge">NOVO</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <h4>Squid Game</h4>
+          <p>Série • 4ª Temporada</p>
+          <a href="SquidGame.html">Assistir</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🔥 #2</div>
+          <img src="Lupen.jpg" alt="Lupin">
+          <h4>Lupin</h4>
+          <p>Filme • Ação</p>
+          <a href="Lupin.html">Assistir</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🔥 #3</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton</h4>
+          <p>Série • Temporada Final</p>
+          <a href="Brid.html">Assistir</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🔥 #4</div>
+          <div class="new-badge">NOVO</div>
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <h4>YOU</h4>
+          <p>Série • Mistério</p>
+          <a href="You.html">Assistir</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">🔥 #5</div>
+          <img src="lucifer.jpg" alt="Lucifer">
+          <h4>Lucifer</h4>
+          <p>Série • 6ª Temporada</p>
+          <a href="lucifer.html">Assistir</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">🔥 #6</div>
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <h4>Cobra Kai</h4>
+          <p>Série • 5ª Temporada</p>
+          <a href="cobraKai.html">Assistir</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "TOP 10 BOMBANDO" ===== -->
+    <section class="top10-section">
+      <div class="section-title">
+        <h3>Top 10 Bombando</h3>
+        <a href="top10-bombando.html" class="see-all">Ver Todos</a>
+      </div>
+      <div class="top-list">
+        <div class="top-item">
+          <div class="top-number">1</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <div class="top-item-content">
+            <div class="top-item-title">Squid Game
+              <span class="trend-indicator trend-up">↑2</span>
+            </div>
+            <div class="top-item-desc">4ª TEMPORADA • 12M DE VISUALIZAÇÕES</div>
+            <a href="SquidGame.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">2</div>
+          <img src="Lupen.jpg" alt="Lupin">
+          <div class="top-item-content">
+            <div class="top-item-title">Lupin
+              <span class="trend-indicator trend-new">NOVO</span>
+            </div>
+            <div class="top-item-desc">FILME • 8.5M DE VISUALIZAÇÕES</div>
+            <a href="Lupin.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">3</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <div class="top-item-content">
+            <div class="top-item-title">Bridgerton
+              <span class="trend-indicator trend-down">↓1</span>
+            </div>
+            <div class="top-item-desc">TEMPORADA FINAL • 7.2M DE VISUALIZAÇÕES</div>
+            <a href="Brid.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">4</div>
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <div class="top-item-content">
+            <div class="top-item-title">YOU
+              <span class="trend-indicator trend-up">↑3</span>
+            </div>
+            <div class="top-item-desc">SÉRIE • 6.8M DE VISUALIZAÇÕES</div>
+            <a href="You.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">5</div>
+          <img src="lucifer.jpg" alt="Lucifer">
+          <div class="top-item-content">
+            <div class="top-item-title">Lucifer
+              <span class="trend-indicator trend-new">NOVO</span>
+            </div>
+            <div class="top-item-desc">6ª TEMPORADA • 5.9M DE VISUALIZAÇÕES</div>
+            <a href="lucifer.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">6</div>
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <div class="top-item-content">
+            <div class="top-item-title">Cobra Kai
+              <span class="trend-indicator trend-up">↑2</span>
+            </div>
+            <div class="top-item-desc">5ª TEMPORADA • 5.5M DE VISUALIZAÇÕES</div>
+            <a href="cobraKai.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">7</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet Tooth">
+          <div class="top-item-content">
+            <div class="top-item-title">Sweet Tooth
+              <span class="trend-indicator trend-down">↓1</span>
+            </div>
+            <div class="top-item-desc">2ª TEMPORADA • 4.8M DE VISUALIZAÇÕES</div>
+            <a href="sweet-tooth.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">8</div>
+          <img src="APrincesaMononoke.jpg" alt="A Princesa Mononoke">
+          <div class="top-item-content">
+            <div class="top-item-title">A Princesa Mononoke
+              <span class="trend-indicator trend-new">NOVO</span>
+            </div>
+            <div class="top-item-desc">FILME • 4.2M DE VISUALIZAÇÕES</div>
+            <a href="PrincesaMononoke.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">9</div>
+          <img src="casteloAnimado.jpg" alt="Castelo Animado">
+          <div class="top-item-content">
+            <div class="top-item-title">Castelo Animado
+              <span class="trend-indicator trend-up">↑4</span>
+            </div>
+            <div class="top-item-desc">FILME • 3.9M DE VISUALIZAÇÕES</div>
+            <a href="CasteloAnimado.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">10</div>
+          <img src="elite.webp" alt="Elite">
+          <div class="top-item-content">
+            <div class="top-item-title">Elite
+              <span class="trend-indicator trend-down">↓2</span>
+            </div>
+            <div class="top-item-desc">6ª TEMPORADA • 3.5M DE VISUALIZAÇÕES</div>
+            <a href="elite.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DIVISOR VISUAL ===== -->
+    <div class="divider"></div>
+
+    <!-- ===== SEÇÃO "BOMBANDO NO MUNDO" ===== -->
+    <section class="mundo-section">
+      <div class="section-title">
+        <h3>Bombando no Mundo</h3>
+        <a href="mundo.html" class="see-all">Ver Todos</a>
+      </div>
+      <div class="highlight-section">
+        <div class="highlight-title">SQUID GAME</div>
+        <div class="highlight-desc">A série coreana que conquistou o mundo! Mais de 142 milhões de famílias assistiram.</div>
+        <a href="SquidGame.html" class="nav-button">Assistir Agora</a>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="trending-badge">🌎 #1</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <h4>Squid Game</h4>
+          <p>Série • Coreia do Sul</p>
+          <a href="SquidGame.html">Assistir</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🌎 #2</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton</h4>
+          <p>Série • Reino Unido</p>
+          <a href="Brid.html">Assistir</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🌎 #3</div>
+          <img src="lucifer.jpg" alt="Lucifer">
+          <h4>Lucifer</h4>
+          <p>Série • EUA</p>
+          <a href="lucifer.html">Assistir</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🌎 #4</div>
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <h4>YOU</h4>
+          <p>Série • EUA</p>
+          <a href="You.html">Assistir</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">🌎 #5</div>
+          <img src="elite.webp" alt="Elite">
+          <h4>Elite</h4>
+          <p>Série • Espanha</p>
+          <a href="elite.html">Assistir</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">🌎 #6</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet Tooth">
+          <h4>Sweet Tooth</h4>
+          <p>Série • Nova Zelândia</p>
+          <a href="sweet-tooth.html">Assistir</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "TENDÊNCIAS DA SEMANA" ===== -->
+    <section class="tendencias-section">
+      <div class="section-title">
+        <h3>Tendências da Semana</h3>
+        <a href="tendencias.html" class="see-all">Ver Todos</a>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="trending-badge">📈</div>
+          <div class="new-badge">+245%</div>
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <h4>Cobra Kai</h4>
+          <p>Série • +245% esta semana</p>
+          <a href="cobraKai.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">📈</div>
+          <div class="new-badge">+189%</div>
+          <img src="Lupen.jpg" alt="Lupin">
+          <h4>Lupin</h4>
+          <p>Filme • +189% esta semana</p>
+          <a href="Lupin.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">📈</div>
+          <div class="new-badge">+156%</div>
+          <img src="APrincesaMononoke.jpg" alt="A Princesa Mononoke">
+          <h4>A Princesa Mononoke</h4>
+          <p>Filme • +156% esta semana</p>
+          <a href="PrincesaMononoke.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">📈</div>
+          <div class="new-badge">+132%</div>
+          <img src="casteloAnimado.jpg" alt="Castelo Animado">
+          <h4>Castelo Animado</h4>
+          <p>Filme • +132% esta semana</p>
+          <a href="CasteloAnimado.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">📈</div>
+          <div class="new-badge">+98%</div>
+          <img src="viagemDeChihiro.webp" alt="A Viagem de Chihiro">
+          <h4>A Viagem de Chihiro</h4>
+          <p>Filme • +98% esta semana</p>
+          <a href="ViagemChihiro.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">📈</div>
+          <div class="new-badge">+87%</div>
+          <img src="PorcoRosso.webp" alt="Porco Rosso">
+          <h4>Porco Rosso</h4>
+          <p>Filme • +87% esta semana</p>
+          <a href="porcoRosso.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "EM ALTA NAS REDES" ===== -->
+    <section class="redes-section">
+      <div class="section-title">
+        <h3>Em Alta nas Redes</h3>
+        <a href="redes.html" class="see-all">Ver Todos</a>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="trending-badge">📱</div>
+          <div class="new-badge">VIRAL</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <h4>Squid Game</h4>
+          <p>2M+ menções</p>
+          <a href="SquidGame.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">📱</div>
+          <div class="new-badge">VIRAL</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton</h4>
+          <p>1.5M+ menções</p>
+          <a href="Brid.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">📱</div>
+          <div class="new-badge">TRENDING</div>
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <h4>YOU</h4>
+          <p>1.2M+ menções</p>
+          <a href="You.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">📱</div>
+          <div class="new-badge">TRENDING</div>
+          <img src="lucifer.jpg" alt="Lucifer">
+          <h4>Lucifer</h4>
+          <p>980K+ menções</p>
+          <a href="lucifer.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">📱</div>
+          <div class="new-badge">TRENDING</div>
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <h4>Cobra Kai</h4>
+          <p>850K+ menções</p>
+          <a href="cobraKai.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">📱</div>
+          <div class="new-badge">TRENDING</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="Sweet Tooth">
+          <h4>Sweet Tooth</h4>
+          <p>720K+ menções</p>
+          <a href="sweet-tooth.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "LANÇAMENTOS BOMBANDO" ===== -->
+    <section class="lancamentos-section">
+      <div class="section-title">
+        <h3>Lançamentos Bombando</h3>
+        <a href="lancamentos.html" class="see-all">Ver Todos</a>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="trending-badge">🎬</div>
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="Lupen.jpg" alt="Lupin">
+          <h4>Lupin</h4>
+                    <p>Filme • Lançamento 2023</p>
+          <a href="Lupin.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🎬</div>
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="squid-game.webp" alt="Squid Game">
+          <h4>Squid Game: Desafio</h4>
+          <p>Reality Show • Novidade</p>
+          <a href="squid-game-desafio.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🎬</div>
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="Brid.webp" alt="Bridgerton">
+          <h4>Bridgerton: Spin-off</h4>
+          <p>Série • Prévia Exclusiva</p>
+          <a href="bridgerton-spinoff.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="trending-badge">🎬</div>
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="you-terceira-temporada-2.webp" alt="You">
+          <h4>YOU: Temporada 5</h4>
+          <p>Série • Em Breve</p>
+          <a href="you-t5.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">🎬</div>
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="casteloAnimado.jpg" alt="Castelo Animado">
+          <h4>Castelo Animado 2</h4>
+          <p>Filme • Anúncio</p>
+          <a href="castelo-animado-2.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="trending-badge">🎬</div>
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="CobraKai.jpg" alt="Cobra Kai">
+          <h4>Cobra Kai: Filme</h4>
+          <p>Filme • Desenvolvimento</p>
+          <a href="cobra-kai-filme.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== RODAPÉ DA PÁGINA ===== -->
+  <footer>
+    <p>© 2025 TimiCini - Todos os direitos reservados</p>
+    <p>Esta é uma página demonstrativa criada para fins educacionais</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Fechar menu do logo ao clicar fora dele
+      document.addEventListener('click', function(event) {
+        const logoMenu = document.querySelector('.logo-menu');
+        const logoContainer = document.querySelector('.logo-container');
+        const menuToggle = document.getElementById('logo-menu-toggle');
+        
+        if (!logoContainer.contains(event.target) && menuToggle.checked) {
+          menuToggle.checked = false;
+        }
+      });
+
+      // Adicionar efeito de clique nos cards
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.addEventListener('click', function() {
+          const title = this.querySelector('h4').textContent;
+          alert(`Abrindo página do conteúdo: ${title}`);
+        });
+      });
+
+      // Efeito de hover nos itens do top 10
+      const topItems = document.querySelectorAll('.top-item');
+      topItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateX(10px)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateX(0)';
+        });
+      });
+
+      // Simular dados de tendências em tempo real
+      const trendIndicators = document.querySelectorAll('.trend-indicator');
+      setInterval(() => {
+        trendIndicators.forEach(indicator => {
+          const randomChange = Math.random();
+          if (randomChange < 0.4) {
+            indicator.textContent = '↑' + Math.floor(Math.random() * 5 + 1);
+            indicator.className = 'trend-indicator trend-up';
+          } else if (randomChange < 0.7) {
+            indicator.textContent = '↓' + Math.floor(Math.random() * 3 + 1);
+            indicator.className = 'trend-indicator trend-down';
+          } else {
+            indicator.textContent = 'NOVO';
+            indicator.className = 'trend-indicator trend-new';
+          }
+        });
+      }, 5000);
+
+      // Atualizar badges de tendência percentual
+      const percentBadges = document.querySelectorAll('.new-badge');
+      setInterval(() => {
+        percentBadges.forEach(badge => {
+          if (badge.textContent.includes('%')) {
+            const currentPercent = parseInt(badge.textContent);
+            const newPercent = currentPercent + Math.floor(Math.random() * 20 - 10);
+            if (newPercent > 50) {
+              badge.textContent = '+' + newPercent + '%';
+            }
+          }
+        });
+      }, 8000);
+    });
+  </script>
+</body>
+</html>

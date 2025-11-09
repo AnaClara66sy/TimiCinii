@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimiCini - Início</title>
+  <style>
+    /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background: #0a1a35;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== CABEÇALHO ===== */
+    header {
+      background: rgba(12, 35, 64, 0.95);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e3a5f;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo-container {
+      position: relative;
+    }
+    
+    .logo {
+      margin: 0;
+      font-size: 28px;
+      color: #fff679;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .logo:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    /* ===== BARRA DE PESQUISA ===== */
+    .search-container {
+      position: relative;
+      flex: 0 1 400px;
+      margin: 0 20px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(30, 58, 95, 0.8);
+      border-radius: 25px;
+      padding: 8px 15px;
+      border: 1px solid #2a4a75;
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus-within {
+      background: rgba(30, 58, 95, 0.95);
+      border-color: #4a9fff;
+      box-shadow: 0 0 0 2px rgba(74, 159, 255, 0.3);
+    }
+
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      padding: 5px 10px;
+      outline: none;
+    }
+
+    .search-input::placeholder {
+      color: #b8d4ff;
+    }
+
+    .search-button {
+      background: transparent;
+      border: none;
+      color: #b8d4ff;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-button:hover {
+      color: #4a9fff;
+      background: rgba(74, 159, 255, 0.2);
+    }
+
+    /* Resultados da pesquisa */
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(12, 35, 64, 0.95);
+      border: 1px solid #2a4a75;
+      border-radius: 0 0 12px 12px;
+      margin-top: 5px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .search-results.active {
+      display: block;
+    }
+
+    .search-result-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(42, 74, 117, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-result-item:hover {
+      background: rgba(74, 159, 255, 0.2);
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-image {
+      width: 40px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .result-info {
+      flex: 1;
+    }
+
+    .result-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .result-details {
+      font-size: 12px;
+      color: #b8d4ff;
+    }
+
+    .no-results {
+      padding: 20px;
+      text-align: center;
+      color: #b8d4ff;
+    }
+
+    /* ===== MENU DO LOGO ===== */
+    .logo-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(12, 35, 64, 0.95);
+      border: 1px solid #1e3a5f;
+      border-radius: 8px;
+      padding: 10px 0;
+      min-width: 200px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
+    
+    #logo-menu-toggle:checked ~ .logo-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .logo-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+      border-bottom: 1px solid rgba(30, 58, 95, 0.5);
+    }
+    
+    .logo-menu a:hover {
+      background: rgba(74, 159, 255, 0.2);
+      color: #4a9fff;
+      padding-left: 25px;
+    }
+    
+    .logo-menu a:last-child {
+      border-bottom: none;
+    }
+    
+    #logo-menu-toggle {
+      display: none;
+    }
+
+    /* Container para os elementos de navegação no topo */
+    .top-nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    
+    /* Estilo dos links e labels no menu superior */
+    .top-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    /* Efeito hover para links do menu superior */
+    .top-nav a:hover {
+      color: #4a9fff;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Botão Sobre Mim especial */
+    .sobre-mim-btn {
+      background: linear-gradient(135deg, #4a9fff, #2a80b2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .sobre-mim-btn:hover {
+      background: linear-gradient(135deg, #2a80b2, #4a9fff);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 159, 255, 0.4);
+    }
+
+    /* ===== CONTEÚDO PRINCIPAL ===== */
+    .main-content {
+      margin-top: 80px;
+      padding: 20px;
+    }
+
+    /* ===== BANNER DE BOAS-VINDAS ===== */
+    .welcome-banner {
+      padding: 40px 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      background: linear-gradient(135deg, #0c2340, #1e3a5f);
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-out;
+    }
+    
+    .welcome-banner h2 {
+      font-size: 42px;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .welcome-banner p {
+      font-size: 22px;
+      color: #b8d4ff;
+    }
+
+    /* ===== SEÇÃO "NOVIDADES NA TimiCini" ===== */
+    .novidades-section {
+      margin-bottom: 50px;
+      animation: slideIn 0.8s ease-out;
+    }
+    
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 25px;
+      color: #fff;
+      border-left: 6px solid #4a9fff;
+      padding-left: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ===== SEÇÃO "ESTRELAS DA SEMANA" ===== */
+    .estrelas-section {
+      margin-bottom: 50px;
+      animation: slideIn 1s ease-out;
+    }
+
+    /* ===== SEÇÃO "TOP 10 DE HOJE NO BRASIL" ===== */
+    .top10-section {
+      margin-bottom: 50px;
+      animation: slideIn 1.2s ease-out;
+    }
+
+    /* ===== SEÇÃO "VALEM A ESPERA" ===== */
+    .valem-espera-section {
+      margin-bottom: 50px;
+      animation: slideIn 1.4s ease-out;
+    }
+
+    /* ===== SEÇÃO "LANÇAMENTOS RECOMENDADOS" ===== */
+    .lancamentos-section {
+      margin-bottom: 50px;
+      animation: slideIn 1.6s ease-out;
+    }
+
+    /* ===== SEÇÃO "CONTINUE ASSISTINDO" ===== */
+    .continue-assistindo-section {
+      margin-bottom: 50px;
+      animation: slideIn 1.8s ease-out;
+    }
+
+    /* ===== GRID DE CONTEÚDO ===== */
+    .grid {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 10px 5px;
+      scrollbar-width: thin;
+      scrollbar-color: #4a9fff #1e3a5f;
+    }
+
+    .grid::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .grid::-webkit-scrollbar-track {
+      background: #1e3a5f;
+      border-radius: 10px;
+    }
+
+    .grid::-webkit-scrollbar-thumb {
+      background: #4a9fff;
+      border-radius: 10px;
+    }
+
+    /* Estilo individual para cada card */
+    .card {
+      background: #1e3a5f;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 200px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      border: 1px solid #2a4a75;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(74, 159, 255, 0.4);
+      z-index: 10;
+    }
+    
+    .card img {
+      width: 100%;
+      display: block;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .card h4 {
+      margin: 15px 10px 5px;
+      font-size: 16px;
+      color: #fff;
+      font-weight: bold;
+    }
+    
+    .card p {
+      margin: 0 10px 10px;
+      font-size: 13px;
+      color: #b8d4ff;
+    }
+
+    .new-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #e50914;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .card a {
+      display: block;
+      text-align: center;
+      background: #4a9fff;
+      color: #fff;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 0 0 12px 12px;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+    
+    .card a:hover {
+      background: #2a80b2;
+      letter-spacing: 1px;
+    }
+
+    /* ===== LISTA DO TOP 10 ===== */
+    .top-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .top-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      background: rgba(30, 58, 95, 0.7);
+      position: relative;
+    }
+    
+    .top-item:hover {
+      background: rgba(42, 128, 178, 0.3);
+      transform: translateX(10px);
+    }
+
+    .top-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4a9fff;
+      min-width: 30px;
+    }
+    
+    .top-item img {
+      width: 70px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      transition: transform 0.3s;
+    }
+
+    .top-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .top-item-content {
+      flex: 1;
+    }
+    
+    .top-item-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    
+    .top-item-desc {
+      font-size: 14px;
+      color: #b8d4ff;
+    }
+
+    .nav-button {
+      display: inline-block;
+      background: #4a9fff;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 10px 5px;
+      transition: all 0.3s;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .nav-button:hover {
+      background: #2a80b2;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ===== DESTAQUES ===== */
+    .highlight-section {
+      background: rgba(30, 58, 95, 0.7);
+      padding: 30px;
+      margin: 20px 0;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border-left: 6px solid #4a9fff;
+      animation: pulse 2s infinite;
+    }
+    
+    .highlight-title {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .highlight-desc {
+      font-size: 18px;
+      color: #b8d4ff;
+      margin-bottom: 20px;
+    }
+
+    /* ===== DIVISORES ===== */
+    .divider {
+      height: 2px;
+      background: linear-gradient(to right, transparent, #2a4a75, transparent);
+      margin: 40px 0;
+    }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      background: #0c2340;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 14px;
+      color: #b8d4ff;
+      margin-top: 50px;
+      border-top: 1px solid #1e3a5f;
+    }
+
+    /* ===== BOTÃO VER TODOS ===== */
+    .see-all {
+      background: transparent;
+      color: #4a9fff;
+      border: 1px solid #4a9fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .see-all:hover {
+      background: #4a9fff;
+      color: white;
+    }
+
+    /* ===== ANIMAÇÕES ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { 
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(74, 159, 255, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(74, 159, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(74, 159, 255, 0); }
+    }
+
+    /* ===== RESPONSIVIDADE ===== */
+    @media (max-width: 1024px) {
+      .search-container {
+        flex: 0 1 300px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+      }
+      
+      .search-container {
+        order: 3;
+        flex: 1 1 100%;
+        margin: 10px 0 0 0;
+      }
+      
+      .top-nav {
+        gap: 15px;
+      }
+      
+      .top-nav a {
+        font-size: 14px;
+        padding: 4px 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .search-container {
+        flex: 1 1 100%;
+      }
+      
+      .search-input {
+        font-size: 14px;
+      }
+      
+      .top-nav {
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== CABEÇALHO DA PÁGINA ===== -->
+  <header>
+    <!-- Container do logo com menu integrado -->
+    <div class="logo-container">
+      <input type="checkbox" id="logo-menu-toggle">
+      <label for="logo-menu-toggle" class="logo">TimiCini</label>
+      <div class="logo-menu">
+        <a href="index.html">Página Inicial</a>
+        <a href="entrada.html">Minha Conta</a>
+        <a href="SobreMim.html">Sobre o Autor</a>
+        <a href="entrada.html">Sair</a>
+      </div>
+    </div>
+    
+    <!-- BARRA DE PESQUISA -->
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Buscar filmes, séries, atores..." id="searchInput">
+        <button class="search-button" id="searchButton">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="search-results" id="searchResults">
+        <!-- Os resultados da pesquisa aparecerão aqui -->
+      </div>
+    </div>
+    
+    <!-- Menu de navegação superior -->
+    <div class="top-nav">
+      <a href="index.html" style="color: #4a9fff; font-weight: bold;">Home</a>
+      <a href="series.html">Séries</a>
+      <a href="filmes.html">Filmes</a>
+      <a href="bombando.html">Bombando</a>
+      <a href="minhalista.html">Minha Lista</a>
+      <a href="SobreMim.html" class="sobre-mim-btn">Sobre Mim</a>
+    </div>
+  </header>
+
+  <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+  <div class="main-content">
+    <!-- ===== BANNER DE BOAS-VINDAS ===== -->
+    <section class="welcome-banner">
+      <h2>Hello Clara</h2>
+      <p>Novidades na TimiCini</p>
+    </section>
+
+    <!-- ===== SEÇÃO "CONTINUE ASSISTINDO" ===== -->
+    <section class="continue-assistindo-section">
+      
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">NOVO</div>
+          <img src="trovao-azul.jpg" alt="Continue 1">
+          <h4>Trovão Azul</h4>
+          <p>Ação • 78% assistido</p>
+          <a href="trovaoAzul.html">Continuar</a>
+        </div>
+        
+        <div class="card">
+          <img src="tudo-azul.jpg" alt="Continue 2">
+          <h4>Tudo Azul</h4>
+          <p>Comédia • 45% assistido</p>
+          <a href="tudoazul.html">Continuar</a>
+        </div>
+        
+        <div class="card">
+          <img src="R.jpg" alt="Continue 3">
+          <h4>O espaço entre nós</h4>
+          <p>Drama • 32% assistido</p>
+          <a href="espacoEntreNos.html">Continuar</a>
+        </div>
+        
+        <div class="card">
+          <img src="20240917-terrifier-3.webp" alt="Continue 4">
+          <h4>Terrifier 3</h4>
+          <p>Terror • 15% assistido</p>
+          <a href="Terrifier.html">Continuar</a>
+        </div>
+
+        <div class="card">
+          <img src="Lupen.jpg" alt="Continue 5">
+          <h4>Lupin</h4>
+          <p>Suspense • 60% assistido</p>
+          <a href="Lupin.html">Continuar</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">NOVO</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="Continue 6">
+          <h4>Sweet Tooth</h4>
+          <p>Fantasia • 25% assistido</p>
+          <a href="sweet.html">Continuar</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "ESTRELAS DA SEMANA" ===== -->
+    <section class="estrelas-section">
+      
+      
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">TOP</div>
+          <img src="trovao-azul.jpg" alt="Estrela 1">
+          <h4>Trovão Azul</h4>
+          <p>Ação • 2024</p>
+          <a href="trovaoAzul.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="tudo-azul.jpg" alt="Estrela 2">
+          <h4>Tudo Azul</h4>
+          <p>Comédia • 2023</p>
+          <a href="tudoazul.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="R.jpg" alt="Estrela 3">
+          <h4>O espaço entre nós</h4>
+          <p>Drama • 2022</p>
+          <a href="espacoEntreNos.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="20240917-terrifier-3.webp" alt="Estrela 4">
+          <h4>Terrifier 3</h4>
+          <p>Terror • 2025</p>
+          <a href="Terrifier.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">HIT</div>
+          <img src="lucifer.jpg" alt="Estrela 5">
+          <h4>Lucifer</h4>
+          <p>Fantasia • 2024</p>
+          <a href="lucifer.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <img src="elite.webp" alt="Estrela 6">
+          <h4>Elite</h4>
+          <p>Drama • 2023</p>
+          <a href="elite.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <img src="wonderPark.webp" alt="Estrela 7">
+          <h4>Wonder Park</h4>
+          <p>Animação • 2023</p>
+          <a href="wonderPark.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "TOP 10 DE HOJE NO BRASIL" ===== -->
+    <section class="top10-section">
+      
+      
+      <div class="top-list">
+        <div class="top-item">
+          <div class="top-number">1</div>
+          <img src="Lupen.jpg" alt="LUPIN">
+          <div class="top-item-content">
+            <div class="top-item-title">LUPIN</div>
+            <div class="top-item-desc">NOVOS EPISÓDIOS</div>
+            <a href="Lupin.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">2</div>
+          <img src="sweet-tooth-tudo-sobre.png" alt="SWEET TOOTH">
+          <div class="top-item-content">
+            <div class="top-item-title">SWEET TOOTH</div>
+            <div class="top-item-desc">olhardigital.com.br</div>
+            <a href="sweet.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">3</div>
+          <img src="wonderPark.webp" alt="WONDER PARK">
+          <div class="top-item-content">
+            <div class="top-item-title">WONDER PARK</div>
+            <div class="top-item-desc">CORTAL KAT</div>
+            <a href="wonderPark.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">4</div>
+          <img src="elite.webp" alt="ELITE">
+          <div class="top-item-content">
+            <div class="top-item-title">ELITE</div>
+            <div class="top-item-desc">KAT L. CIDADE DE GELO</div>
+            <a href="elite.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+        
+        <div class="top-item">
+          <div class="top-number">5</div>
+          <img src="lucifer.jpg" alt="LUCIFER">
+          <div class="top-item-content">
+            <div class="top-item-title">LUCIFER</div>
+            <div class="top-item-desc">NOVOS EPISÓDIOS</div>
+            <a href="lucifer.html" class="nav-button">Assistir</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DIVISOR VISUAL ===== -->
+    <div class="divider"></div>
+
+    <!-- ===== SEÇÃO "VALEM A ESPERA" ===== -->
+    <section class="valem-espera-section">
+     
+      
+      <div class="highlight-section">
+        <div class="highlight-title">LA CASA DE PAPEL</div>
+        <div class="highlight-desc">A maior atração de assalto já vista na televisão. Nova temporada em breve!</div>
+        <a href="la-casa-de-papel.html" class="nav-button">Saiba mais</a>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO "LANÇAMENTOS RECOMENDADOS" ===== -->
+    <section class="lancamentos-section">
+      
+      
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="casteloAnimado.jpg" alt="Lançamento 1">
+          <h4>Castelo Animado</h4>
+          <p>Animação • 2024</p>
+          <a href="CasteloAnimado.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="tudo-azul.jpg" alt="Lançamento 2">
+          <h4>Tudo Azul</h4>
+          <p>Comédia • 2023</p>
+          <a href="tudoazul.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="CasteloNoCeu.png" alt="Lançamento 3">
+          <h4>Castelo no céu</h4>
+          <p>Drama • 2022</p>
+          <a href="CasteloNoCeu.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <div class="new-badge">EM BREVE</div>
+          <img src="20240917-terrifier-3.webp" alt="Lançamento 4">
+          <h4>Terrifier 3</h4>
+          <p>Terror • 2025</p>
+          <a href="Terrifier.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">LANÇAMENTO</div>
+          <img src="lucifer.jpg" alt="Lançamento 5">
+          <h4>Lucifer</h4>
+          <p>Fantasia • 2024</p>
+          <a href="lucifer.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">ORIGINAL</div>
+          <img src="viagemDeChihiro.webp" alt="Lançamento 6">
+          <h4>A viagem de chihiro</h4>
+          <p>Animação • 2023</p>
+          <a href="ViagemChihiro.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEÇÃO DE NOVIDADES ===== -->
+    <section class="novidades-section">
+      
+      <div class="grid">
+        <div class="card">
+          <div class="new-badge">NOVO</div>
+          <img src="trovao-azul.jpg" alt="Novidade 1">
+          <h4>Trovão Azul</h4>
+          <p>Ação • 2024</p>
+          <a href="trovaoAzul.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="tudo-azul.jpg" alt="Novidade 2">
+          <h4>Tudo Azul</h4>
+          <p>Comédia • 2023</p>
+          <a href="tudoazul.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="R.jpg" alt="Novidade 3">
+          <h4>O Retorno</h4>
+          <p>Drama • 2022</p>
+          <a href="espacoEntreNos.html">Ver detalhes</a>
+        </div>
+        
+        <div class="card">
+          <img src="20240917-terrifier-3.webp" alt="Novidade 4">
+          <h4>Terrifier 3</h4>
+          <p>Terror • 2025</p>
+          <a href="Terrifier.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <div class="new-badge">EXCLUSIVO</div>
+          <img src="Lupen.jpg" alt="Novidade 5">
+          <h4>Lupin</h4>
+          <p>Suspense • 2024</p>
+          <a href="Lupin.html">Ver detalhes</a>
+        </div>
+
+        <div class="card">
+          <img src="sweet-tooth-tudo-sobre.png" alt="Novidade 6">
+          <h4>Sweet Tooth</h4>
+          <p>Fantasia • 2023</p>
+          <a href="sweet.html">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== RODAPÉ DA PÁGINA ===== -->
+  <footer>
+    <p>© 2025 TimiCini - Todos os direitos reservados</p>
+    <p>Esta é uma página demonstrativa criada para fins educacionais</p>
+    <p><a href="sobre-mim.html" style="color: #4a9fff; text-decoration: none;">Conheça o autor deste projeto</a></p>
+  </footer>
+
+  <script>
+    // Dados de exemplo para a pesquisa
+    const searchData = [
+      {
+        id: 1,
+        title: "Trovão Azul",
+        type: "Filme",
+        genre: "Ação",
+        year: "2024",
+        image: "trovao-azul.jpg",
+        link: "trovaoAzul.html"
+      },
+      {
+        id: 2,
+        title: "Tudo Azul",
+        type: "Filme",
+        genre: "Comédia",
+        year: "2023",
+        image: "tudo-azul.jpg",
+        link: "tudoazul.html"
+      },
+      {
+        id: 3,
+        title: "O espaço entre nós",
+        type: "Filme",
+        genre: "Drama",
+        year: "2022",
+        image: "R.jpg",
+        link: "espacoEntreNos.html"
+      },
+      {
+        id: 4,
+        title: "Terrifier 3",
+        type: "Filme",
+        genre: "Terror",
+        year: "2025",
+        image: "20240917-terrifier-3.webp",
+        link: "Terrifier.html"
+      },
+      {
+        id: 5,
+        title: "Lupin",
+        type: "Série",
+        genre: "Suspense",
+        year: "2024",
+        image: "Lupen.jpg",
+        link: "Lupin.html"
+      },
+      {
+        id: 6,
+        title: "Sweet Tooth",
+        type: "Série",
+        genre: "Fantasia",
+        year: "2023",
+        image: "sweet-tooth-tudo-sobre.png",
+        link: "sweet.html"
+      },
+      {
+        id: 7,
+        title: "Lucifer",
+        type: "Série",
+        genre: "Fantasia",
+        year: "2024",
+        image: "lucifer.jpg",
+        link: "lucifer.html"
+      },
+      {
+        id: 8,
+        title: "Elite",
+        type: "Série",
+        genre: "Drama",
+        year: "2023",
+        image: "elite.webp",
+        link: "elite.html"
+      },
+      {
+        id: 9,
+        title: "Wonder Park",
+        type: "Filme",
+        genre: "Animação",
+        year: "2023",
+        image: "wonderPark.webp",
+        link: "wonderPark.html"
+      },
+      {
+        id: 10,
+        title: "Castelo Animado",
+        type: "Filme",
+        genre: "Animação",
+        year: "2024",
+        image: "casteloAnimado.jpg",
+        link: "CasteloAnimado.html"
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      const searchButton = document.getElementById('searchButton');
+
+      // Função para realizar a pesquisa
+      function performSearch(query) {
+        if (query.length < 2) {
+          searchResults.classList.remove('active');
+          return;
+        }
+
+        const filteredResults = searchData.filter(item => 
+          item.title.toLowerCase().includes(query.toLowerCase()) ||
+          item.genre.toLowerCase().includes(query.toLowerCase()) ||
+          item.type.toLowerCase().includes(query.toLowerCase())
+        );
+
+        displayResults(filteredResults);
+      }
+
+      // Função para exibir os resultados
+      function displayResults(results) {
+        if (results.length === 0) {
+          searchResults.innerHTML = '<div class="no-results">Nenhum resultado encontrado</div>';
+        } else {
+          searchResults.innerHTML = results.map(item => `
+            <div class="search-result-item" data-link="${item.link}">
+              <img src="${item.image}" alt="${item.title}" class="result-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA0MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjMWUzYTVmIi8+Cjx0ZXh0IHg9IjIwIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjYjg4NGZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+JEZJTE08L3RleHQ+Cjwvc3ZnPg=='">
+              <div class="result-info">
+                <div class="result-title">${item.title}</div>
+                <div class="result-details">${item.type} • ${item.genre} • ${item.year}</div>
+              </div>
+            </div>
+          `).join('');
+        }
+        searchResults.classList.add('active');
+      }
+
+      // Event listeners
+      searchInput.addEventListener('input', function() {
+        performSearch(this.value);
+      });
+
+      searchButton.addEventListener('click', function() {
+        performSearch(searchInput.value);
+      });
+
+      // Fechar resultados ao clicar fora
+      document.addEventListener('click', function(event) {
+        if (!event.target.closest('.search-container')) {
+          searchResults.classList.remove('active');
+        }
+      });
+
+      // Navegar para o item clicado
+      searchResults.addEventListener('click', function(event) {
+        const resultItem = event.target.closest('.search-result-item');
+        if (resultItem) {
+          const link = resultItem.getAttribute('data-link');
+          window.location.href = link;
+        }
+      });
+
+      // Pesquisar ao pressionar Enter
+      searchInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+          performSearch(this.value);
+        }
+      });
+
+      // Fechar menu do logo ao clicar fora dele
+      document.addEventListener('click', function(event) {
+        const logoMenu = document.querySelector('.logo-menu');
+        const logoContainer = document.querySelector('.logo-container');
+        const menuToggle = document.getElementById('logo-menu-toggle');
+        
+        if (!logoContainer.contains(event.target) && menuToggle.checked) {
+          menuToggle.checked = false;
+        }
+      });
+
+      // Adicionar efeito de clique nos cards
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.addEventListener('click', function() {
+          const title = this.querySelector('h4').textContent;
+          console.log(`Abrindo página do conteúdo: ${title}`);
+        });
+      });
+
+      // Efeito de hover nos itens do top 10
+      const topItems = document.querySelectorAll('.top-item');
+      topItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateX(10px)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateX(0)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

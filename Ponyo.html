@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ponyo - TimiCini</title>
+  <style>
+    /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a1a35, #0c2340, #1e3a5f);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== CABEÇALHO ===== */
+    header {
+      background: rgba(12, 35, 64, 0.95);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a4a75;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo {
+      font-size: 28px;
+      color: #fff679;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    
+    .top-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .top-nav a:hover {
+      color: #4a9fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+      position: relative;
+      height: 80vh;
+      margin-top: 80px;
+      overflow: hidden;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(10, 26, 53, 0.7), rgba(10, 26, 53, 0.9)),
+                  url('Ponyo.webp');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.8);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 60px;
+      max-width: 800px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .ghibli-badge {
+      background: rgba(255, 215, 0, 0.9);
+      color: #0a1a35;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-info {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      color: #b8d4ff;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #e6f0ff;
+      max-width: 600px;
+    }
+
+    /* ===== BOTÕES DE AÇÃO ===== */
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #4a9fff;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: #2a80b2;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(74, 159, 255, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 12px 25px;
+      border: 1px solid #4a9fff;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(74, 159, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ===== DETALHES DO FILME ===== */
+    .movie-details {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .detail-section {
+      background: rgba(30, 58, 95, 0.5);
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #2a4a75;
+    }
+
+    .detail-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #4a9fff;
+      border-left: 4px solid #4a9fff;
+      padding-left: 10px;
+    }
+
+    .detail-content {
+      color: #b8d4ff;
+      line-height: 1.6;
+    }
+
+    .cast-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .cast-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      background: rgba(42, 128, 178, 0.1);
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .cast-item:hover {
+      background: rgba(42, 128, 178, 0.2);
+      transform: translateX(5px);
+    }
+
+    .cast-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #4a9fff, #2a80b2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* ===== TRAILER SECTION ===== */
+    .trailer-section {
+      padding: 40px;
+      text-align: center;
+      background: rgba(30, 58, 95, 0.3);
+      margin: 40px 0;
+      border-radius: 16px;
+      border: 1px solid #2a4a75;
+    }
+
+    .trailer-title {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #fff;
+    }
+
+    .trailer-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .trailer-placeholder {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(45deg, #1e3a5f, #2a4a75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .play-icon {
+      font-size: 60px;
+      color: #4a9fff;
+    }
+
+    /* ===== FILMES SIMILARES ===== */
+    .similar-movies {
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #fff;
+      border-left: 4px solid #4a9fff;
+      padding-left: 15px;
+    }
+
+    .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .movie-card {
+      background: rgba(30, 58, 95, 0.7);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s;
+      border: 1px solid #2a4a75;
+    }
+
+    .movie-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(74, 159, 255, 0.3);
+      border-color: #4a9fff;
+    }
+
+    .movie-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .movie-card-content {
+      padding: 15px;
+    }
+
+    .movie-card-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .movie-card-year {
+      font-size: 14px;
+      color: #b8d4ff;
+    }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      background: #0c2340;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+      border-top: 1px solid #1e3a5f;
+      color: #b8d4ff;
+    }
+
+    /* ===== ANIMAÇÕES ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-content > * {
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .hero-title { animation-delay: 0.1s; }
+    .hero-info { animation-delay: 0.2s; }
+    .hero-description { animation-delay: 0.3s; }
+    .action-buttons { animation-delay: 0.4s; }
+
+    /* ===== RESPONSIVIDADE ===== */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 36px;
+      }
+      
+      .details-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .hero-content {
+        padding: 40px 20px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .movie-details {
+        padding: 40px 20px;
+      }
+      
+      .top-nav {
+        gap: 15px;
+      }
+      
+      .top-nav a {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== CABEÇALHO ===== -->
+  <header>
+    <div class="logo">TimiCini</div>
+    
+    <div class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="series.html">Séries</a>
+      <a href="filmes.html">Filmes</a>
+      <a href="bombando.html">Bombando</a>
+      <a href="minhalista.html">Minha Lista</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero-section">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <div class="ghibli-badge">Studio Ghibli</div>
+      <h1 class="hero-title">Ponyo</h1>
+      
+      <div class="hero-info">
+        <div class="info-item">★ 7.7/10</div>
+        <div class="info-item">2008</div>
+        <div class="info-item">1h 41min</div>
+        <div class="info-item">Animação • Fantasia</div>
+        <div class="info-item">Livre para todos</div>
+      </div>
+      
+      <p class="hero-description">
+        Um peixinho dourado chamado Ponyo conhece o menino Sōsuke e deseja se tornar humana. 
+        Sua busca por transformação desencadeia um desequilíbrio cósmico que ameaça o mundo. 
+        Uma emocionante aventura sobre amizade, amor e o equilíbrio entre a natureza e a humanidade.
+      </p>
+      
+      <div class="action-buttons">
+        <button class="btn-primary">
+          <span>▶</span> Assistir Agora
+        </button>
+        <button class="btn-secondary">
+          <span>+</span> Minha Lista
+        </button>
+        <button class="btn-secondary">
+          <span>ⓘ</span> Mais Informações
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DETALHES DO FILME ===== -->
+  <section class="movie-details">
+    <div class="details-grid">
+      <div class="detail-section">
+        <h3 class="detail-title">Sinopse</h3>
+        <p class="detail-content">
+          Ponyo é uma princesa peixe dourado que vive no oceano com seu pai, um feiticeiro, 
+          e sua mãe, uma deusa do mar. Curiosa sobre o mundo humano, ela foge e conhece 
+          Sōsuke, um menino de cinco anos que vive em um penhasco à beira-mar. Os dois 
+          formam um laço especial, mas a transformação mágica de Ponyo em humana causa 
+          um desequilíbrio na natureza, levando a uma aventura extraordinária para restaurar 
+          a harmonia entre os mundos terrestre e marinho.
+        </p>
+      </div>
+      
+      <div class="detail-section">
+        <h3 class="detail-title">Elenco e Direção</h3>
+        <div class="detail-content">
+          <p><strong>Diretor:</strong> Hayao Miyazaki</p>
+          <p><strong>Roteiro:</strong> Hayao Miyazaki</p>
+          <p><strong>Produção:</strong> Studio Ghibli</p>
+          
+          <div class="cast-list">
+            <div class="cast-item">
+              <div class="cast-avatar">YN</div>
+              <div>
+                <strong>Yuria Nara</strong>
+                <div style="font-size: 12px; color: #8bb4ff;">Ponyo (voz)</div>
+              </div>
+            </div>
+            <div class="cast-item">
+              <div class="cast-avatar">HD</div>
+              <div>
+                <strong>Hiroki Doi</strong>
+                <div style="font-size: 12px; color: #8bb4ff;">Sōsuke (voz)</div>
+              </div>
+            </div>
+            <div class="cast-item">
+              <div class="cast-avatar">TT</div>
+              <div>
+                <strong>Tomoko Yamaguchi</strong>
+                <div style="font-size: 12px; color: #8bb4ff;">Lisa (voz)</div>
+              </div>
+            </div>
+            <div class="cast-item">
+              <div class="cast-avatar">KK</div>
+              <div>
+                <strong>Kazushige Nagashima</strong>
+                <div style="font-size: 12px; color: #8bb4ff;">Kōichi (voz)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="details-grid">
+      <div class="detail-section">
+        <h3 class="detail-title">Inspiração e Temas</h3>
+        <div class="detail-content">
+          <p>🧜‍♀️ Inspirado no conto "A Pequena Sereia" de Hans Christian Andersen</p>
+          <p>🌊 Foco na preservação ambiental e relação homem-natureza</p>
+          <p>👶 Retrato puro da amizade infantil</p>
+          <p>🎨 Animação tradicional com técnicas inovadoras</p>
+          <p>🎵 Trilha sonora marcante de Joe Hisaishi</p>
+        </div>
+      </div>
+      
+      <div class="detail-section">
+        <h3 class="detail-title">Detalhes Técnicos</h3>
+        <div class="detail-content">
+          <p><strong>Áudio:</strong> Japonês • Português • Inglês</p>
+          <p><strong>Legendas:</strong> Português • Inglês • Espanhol</p>
+          <p><strong>Qualidade:</strong> 4K Ultra HD</p>
+          <p><strong>Formato:</strong> 16:9 Widescreen</p>
+          <p><strong>Duração:</strong> 101 minutos</p>
+          <p><strong>Trilha Sonora:</strong> Joe Hisaishi</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRAILER SECTION ===== -->
+  <section class="trailer-section">
+    <h2 class="trailer-title">Trailer Oficial</h2>
+    <div class="trailer-container">
+      <div class="trailer-placeholder">
+        <div class="play-icon">▶</div>
+        <p>Trailer - Ponyo</p>
+        <a href="https://www.youtube.com/watch?v=h6XP82TyFWw" target="_blank">
+          <button class="btn-primary">Assistir Trailer</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FILMES SIMILARES ===== -->
+  <section class="similar-movies">
+    <h2 class="section-title">Mais do Studio Ghibli</h2>
+    <div class="movies-grid">
+      <div class="movie-card">
+        <img src="casteloAnimado.jpg" alt="Castelo Animado">
+        <div class="movie-card-content">
+          <h3 class="movie-card-title">Castelo Animado</h3>
+          <p class="movie-card-year">2004</p>
+        </div>
+      </div>
+      
+      <div class="movie-card">
+        <img src="viagemDeChihiro.webp" alt="A Viagem de Chihiro">
+        <div class="movie-card-content">
+          <h3 class="movie-card-title">A Viagem de Chihiro</h3>
+          <p class="movie-card-year">2001</p>
+        </div>
+      </div>
+      
+      <div class="movie-card">
+        <img src="CasteloNoCeu.png" alt="Castelo no Céu">
+        <div class="movie-card-content">
+          <h3 class="movie-card-title">Castelo no Céu</h3>
+          <p class="movie-card-year">1986</p>
+        </div>
+      </div>
+      
+      <div class="movie-card">
+        <img src="PorcoRosso.webp" alt="Porco Rosso">
+        <div class="movie-card-content">
+          <h3 class="movie-card-title">Porco Rosso</h3>
+          <p class="movie-card-year">1992</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer>
+    © 2025 TimiCini - Todos os direitos reservados
+  </footer>
+
+  <script>
+    // Script para funcionalidades interativas
+    document.addEventListener('DOMContentLoaded', function() {
+      // Botão de assistir agora
+      const btnAssistir = document.querySelector('.btn-primary');
+      btnAssistir.addEventListener('click', function() {
+        alert('🎬 Iniciando "Ponyo"...');
+        // Aqui seria implementado o player de vídeo
+      });
+      
+      // Botão de adicionar à lista
+      const btnLista = document.querySelectorAll('.btn-secondary')[0];
+      btnLista.addEventListener('click', function() {
+        const adicionado = this.textContent.includes('✓');
+        if (adicionado) {
+          this.innerHTML = '<span>+</span> Minha Lista';
+          alert('❌ Removido da sua lista');
+        } else {
+          this.innerHTML = '<span>✓</span> Na sua Lista';
+          alert('✅ Adicionado à sua lista!');
+        }
+      });
+      
+      // Botão de trailer
+      const btnTrailer = document.querySelector('.trailer-placeholder .btn-primary');
+      btnTrailer.addEventListener('click', function() {
+        alert('🎥 Abrindo trailer de Ponyo...');
+      });
+      
+      // Botão de mais informações
+      const btnInfo = document.querySelectorAll('.btn-secondary')[1];
+      btnInfo.addEventListener('click', function() {
+        alert('ℹ️ Ponyo foi inspirado no conto "A Pequena Sereia" e é uma homenagem à natureza e à pureza da amizade infantil.');
+      });
+    });
+  </script>
+</body>
+</html>
