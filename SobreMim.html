@@ -349,18 +349,42 @@
       text-align: left;
     }
 
-    /* ===== GALERIA ===== */
-    .galeria-section {
+    /* ===== MINHA DOG SECTION ===== */
+    .dog-section {
+      background: rgba(30, 58, 95, 0.7);
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid #2a4a75;
       margin-bottom: 50px;
+      text-align: center;
     }
 
-    .galeria-grid {
+    .dog-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .dog-icon {
+      font-size: 48px;
+      color: #fff679;
+    }
+
+    .dog-title {
+      font-size: 32px;
+      color: #fff;
+      margin: 0;
+    }
+
+    .dog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
-    .galeria-item {
+    .dog-item {
       position: relative;
       border-radius: 12px;
       overflow: hidden;
@@ -368,31 +392,67 @@
       transition: all 0.3s;
     }
 
-    .galeria-item:hover {
+    .dog-item:hover {
       transform: scale(1.05);
     }
 
-    .galeria-img {
+    .dog-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       background: linear-gradient(45deg, #1e3a5f, #2a4a75);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #4a9fff;
-      font-size: 14px;
     }
 
-    .galeria-caption {
+    .dog-caption {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.7);
       padding: 10px;
       text-align: center;
       font-size: 14px;
+      color: #fff;
+    }
+
+    /* ===== MINHA FAMÍLIA SECTION ===== */
+    .familia-section {
+      margin-bottom: 50px;
+    }
+
+    .familia-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .familia-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      transition: all 0.3s;
+    }
+
+    .familia-item:hover {
+      transform: scale(1.03);
+    }
+
+    .familia-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .familia-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 8px;
+      text-align: center;
+      font-size: 12px;
       color: #fff;
     }
 
@@ -506,7 +566,8 @@
     .about-section,
     .curiosidades-section,
     .tradicao-section,
-    .galeria-section,
+    .dog-section,
+    .familia-section,
     .passion-section,
     .contact-section {
       animation: fadeInUp 0.8s ease-out;
@@ -524,9 +585,16 @@
       }
       
       .passion-grid,
-      .curiosidades-grid,
-      .galeria-grid {
+      .curiosidades-grid {
         grid-template-columns: 1fr;
+      }
+      
+      .dog-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .familia-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
       
       .contact-links {
@@ -542,6 +610,11 @@
       .ritual-step {
         flex-direction: column;
         text-align: center;
+        gap: 10px;
+      }
+      
+      .dog-header {
+        flex-direction: column;
         gap: 10px;
       }
     }
@@ -562,6 +635,14 @@
       
       .tradicao-name {
         font-size: 24px;
+      }
+      
+      .dog-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .familia-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -598,7 +679,7 @@
     <!-- ===== SOBRE MIM ===== -->
     <section class="about-section">
       <div>
-        <img src="foto-perfil.jpg" alt="Timie - Ana Clara" class="profile-image">
+        <img src="FotoDeCima.jpeg" alt="Timie - Ana Clara" class="profile-image">
       </div>
       
       <div class="about-content">
@@ -707,9 +788,9 @@
           </div>
           
           <div class="ritual-step">
-            <div class="ritual-icon">😘</div>
+            <div class="ritual-icon">👭</div>
             <div class="ritual-text">
-              Dou um <strong>beijo na bochecha</strong> como símbolo desse convite especial
+              toques físicos são como <strong>símbolo desse convite especial
             </div>
           </div>
         </div>
@@ -722,38 +803,53 @@
       </div>
     </section>
 
-    <!-- ===== GALERIA ===== -->
-    <section class="galeria-section">
-      <h2 class="section-title">Minha Galeria</h2>
-      <div class="galeria-grid">
-        <div class="galeria-item">
-          <div class="galeria-img">[IMG1] Patinação no Gelo</div>
-          <div class="galeria-caption">Deslizando na pista de gelo</div>
+    <!-- ===== MINHA DOG ===== -->
+    <section class="dog-section">
+      <div class="dog-header">
+        <div class="dog-icon">🐕</div>
+        <h2 class="dog-title">Minha vida de 4 Patas</h2>
+      </div>
+      
+      <div class="dog-grid">
+        <div class="dog-item">
+          <img src="Kinha.jpeg" alt="primeiro dia juntas" class="dog-img">
+          <div class="dog-caption">Nosso primeiro dia juntas</div>
         </div>
         
-        <div class="galeria-item">
-          <div class="galeria-img">[IMG2] Projetos Sociais</div>
-          <div class="galeria-caption">Com crianças em orfanatos</div>
+        <div class="dog-item">
+          <img src="KinhaColo.jpeg" alt="Kinha dormindo" class="dog-img">
+          <div class="dog-caption">dormindo um pouco</div>
         </div>
         
-        <div class="galeria-item">
-          <div class="galeria-img">[IMG3] Aulas de Dança</div>
-          <div class="galeria-caption">Ensinando samba rock</div>
+        <div class="dog-item">
+          <img src="KinhaSofa.jpeg" alt="Minha dog dormindo" class="dog-img">
+          <div class="dog-caption">dormindo mais um pouco</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MINHA FAMÍLIA ===== -->
+    <section class="familia-section">
+      <h2 class="section-title">Minha Família</h2>
+      <div class="familia-grid">
+        <div class="familia-item">
+          <img src="Dudu.jpeg" alt="Reunião de família" class="familia-img">
+          <div class="familia-caption">meu irmaõzinho</div>
         </div>
         
-        <div class="galeria-item">
-          <div class="galeria-img">[IMG4] Tênis de Mesa</div>
-          <div class="galeria-caption">Competindo no ping pong</div>
+        <div class="familia-item">
+          <img src="MaeMimEu.jpeg" alt="Celebração em família" class="familia-img">
+          <div class="familia-caption">minha felicidade</div>
         </div>
         
-        <div class="galeria-item">
-          <div class="galeria-img">[IMG5] Momentos SetuTanakawa</div>
-          <div class="galeria-caption">Celebrando amizades</div>
+        <div class="familia-item">
+          <img src="EuMim.jpeg" alt="Momentos em família" class="familia-img">
+          <div class="familia-caption">minha melhor amiga</div>
         </div>
         
-        <div class="galeria-item">
-          <div class="galeria-img">[IMG6] Vida Cotidiana</div>
-          <div class="galeria-caption">Meus momentos especiais</div>
+        <div class="familia-item">
+          <img src="famillia.jpeg" alt="Tradição familiar" class="familia-img">
+          <div class="familia-caption">minha familia 💗</div>
         </div>
       </div>
     </section>
@@ -802,7 +898,7 @@
       <h2 class="section-title">Vamos Conversar?</h2>
       <p style="color: #b8d4ff; margin-bottom: 20px;">
         Adoro conhecer pessoas novas e compartilhar experiências! 
-        Se você também ama crianças, animais, esportes ou simplesmente quer bater um papo..
+        Se você também ama crianças, animais, esportes ou simplesmente quer bater um papo...
       </p>
       <div class="contact-links">
         <a href="mailto:ana.costa@germinare.org.br" class="contact-link">
@@ -826,10 +922,10 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Efeito de hover nos cards
-      const cards = document.querySelectorAll('.curiosidade-card, .passion-card, .galeria-item');
+      const cards = document.querySelectorAll('.curiosidade-card, .passion-card, .dog-item, .familia-item');
       cards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-5px)';
+          this.style.transform = this.classList.contains('familia-item') ? 'scale(1.03)' : 'translateY(-5px)';
         });
         
         card.addEventListener('mouseleave', function() {
@@ -853,7 +949,7 @@
       }, observerOptions);
 
       // Observar elementos para animação
-      const animatedElements = document.querySelectorAll('.about-section, .curiosidades-section, .tradicao-section, .galeria-section, .passion-section, .contact-section');
+      const animatedElements = document.querySelectorAll('.about-section, .curiosidades-section, .tradicao-section, .dog-section, .familia-section, .passion-section, .contact-section');
       animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
