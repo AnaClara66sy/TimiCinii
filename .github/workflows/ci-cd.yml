@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
@@ -18,10 +19,16 @@ jobs:
       - name: Baixar codigo do repositorio
         uses: actions/checkout@v4
 
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Verificar pagina inicial
         run: test -f paginas/index.html
 
       - name: Verificar pasta de imagens
         run: test -d fotos
 
-    
+      - name: Validar links HTML
+        run: python scripts/validar_html.py
