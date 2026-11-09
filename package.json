@@ -1,0 +1,24 @@
+{
+  "name": "timicinii",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:html": "node node_modules/htmlhint/bin/htmlhint paginas/**/*.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnaClara66sy/TimiCinii.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnaClara66sy/TimiCinii/issues"
+  },
+  "homepage": "https://github.com/AnaClara66sy/TimiCinii#readme",
+  "devDependencies": {
+    "htmlhint": "1.7.0"
+  }
+}
