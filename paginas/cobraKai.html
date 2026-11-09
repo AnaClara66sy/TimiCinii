@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cobra Kai - TimiCini</title>
+  <style>
+    /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a1a35, #0c2340, #1e3a5f);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== CABEÇALHO ===== */
+    header {
+      background: rgba(12, 35, 64, 0.95);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a4a75;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo {
+      font-size: 28px;
+      color: #e50914;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    
+    .top-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+    .top-nav a:hover {
+      color: #4a9fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+      position: relative;
+      height: 80vh;
+      margin-top: 80px;
+      overflow: hidden;
+    }
+
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(10, 26, 53, 0.7), rgba(10, 26, 53, 0.9)),
+                  url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.8);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 60px;
+      max-width: 800px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .TimiCini-badge {
+      background: rgba(229, 9, 20, 0.9);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-info {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      color: #b8d4ff;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #e6f0ff;
+      max-width: 600px;
+    }
+
+    /* ===== BOTÕES DE AÇÃO ===== */
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #4a9fff;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: #2a80b2;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(74, 159, 255, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 12px 25px;
+      border: 1px solid #4a9fff;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(74, 159, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ===== DETALHES DA SÉRIE ===== */
+    .series-details {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .detail-section {
+      background: rgba(30, 58, 95, 0.5);
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #2a4a75;
+    }
+
+    .detail-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #4a9fff;
+      border-left: 4px solid #4a9fff;
+      padding-left: 10px;
+    }
+
+    .detail-content {
+      color: #b8d4ff;
+      line-height: 1.6;
+    }
+
+    .cast-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .cast-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      background: rgba(42, 128, 178, 0.1);
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .cast-item:hover {
+      background: rgba(42, 128, 178, 0.2);
+      transform: translateX(5px);
+    }
+
+    .cast-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #4a9fff, #2a80b2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* ===== MUNDO DA SÉRIE ===== */
+    .world-section {
+      background: rgba(30, 58, 95, 0.5);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 30px 0;
+      border: 1px solid #2a4a75;
+    }
+
+    .world-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(42, 128, 178, 0.1);
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .world-item:hover {
+      background: rgba(42, 128, 178, 0.2);
+      transform: translateX(5px);
+    }
+
+    .world-icon {
+      font-size: 24px;
+      color: #4a9fff;
+      min-width: 30px;
+    }
+
+    /* ===== TEMPORADAS ===== */
+    .seasons-section {
+      margin-bottom: 40px;
+    }
+
+    .season-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .season-btn {
+      background: rgba(30, 58, 95, 0.7);
+      color: #b8d4ff;
+      border: 1px solid #2a4a75;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .season-btn.active {
+      background: #4a9fff;
+      color: white;
+      border-color: #4a9fff;
+    }
+
+    .season-btn:hover {
+      background: rgba(74, 159, 255, 0.3);
+    }
+
+    .episodes-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .episode-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: rgba(30, 58, 95, 0.3);
+      border-radius: 8px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .episode-item:hover {
+      background: rgba(42, 128, 178, 0.2);
+      transform: translateX(5px);
+    }
+
+    .episode-number {
+      font-size: 14px;
+      color: #4a9fff;
+      font-weight: bold;
+      min-width: 30px;
+    }
+
+    .episode-content {
+      flex: 1;
+    }
+
+    .episode-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .episode-desc {
+      font-size: 14px;
+      color: #8bb4ff;
+    }
+
+    .episode-duration {
+      font-size: 12px;
+      color: #6a8fcc;
+    }
+
+    /* ===== TRAILER SECTION ===== */
+    .trailer-section {
+      padding: 40px;
+      text-align: center;
+      background: rgba(30, 58, 95, 0.3);
+      margin: 40px 0;
+      border-radius: 16px;
+      border: 1px solid #2a4a75;
+    }
+
+    .trailer-title {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #fff;
+    }
+
+    .trailer-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .trailer-placeholder {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(45deg, #1e3a5f, #2a4a75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .play-icon {
+      font-size: 60px;
+      color: #4a9fff;
+    }
+
+    /* ===== SÉRIES SIMILARES ===== */
+    .similar-series {
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #fff;
+      border-left: 4px solid #4a9fff;
+      padding-left: 15px;
+    }
+
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .series-card {
+      background: rgba(30, 58, 95, 0.7);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s;
+      border: 1px solid #2a4a75;
+    }
+
+    .series-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(74, 159, 255, 0.3);
+      border-color: #4a9fff;
+    }
+
+    .series-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .series-card-content {
+      padding: 15px;
+    }
+
+    .series-card-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .series-card-info {
+      font-size: 14px;
+      color: #b8d4ff;
+    }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      background: #0c2340;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+      border-top: 1px solid #1e3a5f;
+      color: #b8d4ff;
+    }
+
+    /* ===== ANIMAÇÕES ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-content > * {
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .hero-title { animation-delay: 0.1s; }
+    .hero-info { animation-delay: 0.2s; }
+    .hero-description { animation-delay: 0.3s; }
+    .action-buttons { animation-delay: 0.4s; }
+
+    /* ===== RESPONSIVIDADE ===== */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 36px;
+      }
+      
+      .details-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .hero-content {
+        padding: 40px 20px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .series-details {
+        padding: 40px 20px;
+      }
+      
+      .top-nav {
+        gap: 15px;
+      }
+      
+      .top-nav a {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== CABEÇALHO ===== -->
+  <header>
+    <div class="logo">TimiCini</div>
+    
+    <div class="top-nav">
+      <!-- Links de navegação mantidos conforme solicitado -->
+      <a href="index.html">Home</a>
+      <a href="series.html">Séries</a>
+      <a href="filmes.html">Filmes</a>
+      <a href="bombando.html">Bombando</a>
+      <a href="minhalista.html">Minha Lista</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero-section">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <div class="TimiCini-badge">ORIGINAL TimiCini</div>
+      <h1 class="hero-title">Cobra Kai</h1>
+      
+      <div class="hero-info">
+        <div class="info-item">★ 8.6/10</div>
+        <div class="info-item">2018</div>
+        <div class="info-item">5 Temporadas</div>
+        <div class="info-item">Ação • Drama • Comédia</div>
+        <div class="info-item">14 anos</div>
+      </div>
+      
+      <p class="hero-description">
+        Trinta e quatro anos após os eventos de Karate Kid, a rivalidade entre Johnny Lawrence 
+        e Daniel LaRusso é reacendida quando Johnny decide reabrir o dojo Cobra Kai. 
+        Enquanto Johnny tenta encontrar redenção através do karatê, Daniel precisa 
+        proteger sua comunidade da filosofia agressiva do Cobra Kai.
+      </p>
+      
+      <div class="action-buttons">
+        <button class="btn-primary">
+          <span>▶</span> Assistir Agora
+        </button>
+        <button class="btn-secondary">
+          <span>+</span> Minha Lista
+        </button>
+        <button class="btn-secondary">
+          <span>ⓘ</span> Mais Informações
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DETALHES DA SÉRIE ===== -->
+  <section class="series-details">
+    <div class="details-grid">
+      <div class="detail-section">
+        <h3 class="detail-title">Sinopse</h3>
+        <p class="detail-content">
+          Em 2018, Johnny Lawrence vive à sombra de seu passado como antagonista 
+          de Daniel LaRusso em Karate Kid. Trabalhando como handyman e lutando 
+          com alcoolismo, Johnny decide dar um rumo à sua vida reabrindo o infame 
+          dojo Cobra Kai. Quando um adolescente vizinho, Miguel Diaz, se torna 
+          seu primeiro aluno, Johnny encontra propósito em ensinar seu estilo 
+          agressivo de karatê. Enquanto isso, Daniel LaRusso tornou-se um 
+          bem-sucedido negociante de carros, mas ainda guarda as lições de 
+          Mr. Miyagi. A reabertura do Cobra Kai reacende sua rivalidade com 
+          Johnny, levando Daniel a reabrir o Miyagi-Do Karate para combater 
+          a filosofia "ataque primeiro, ataque com força, sem piedade" do Cobra Kai.
+        </p>
+      </div>
+      
+      <div class="detail-section">
+        <h3 class="detail-title">Elenco Principal</h3>
+        <div class="detail-content">
+          <p><strong>Criadores:</strong> Josh Heald, Jon Hurwitz, Hayden Schlossberg</p>
+          <p><strong>Baseado em:</strong> The Karate Kid de Robert Mark Kamen</p>
+          <p><strong>Produção:</strong> Sony Pictures Television</p>
+          
+          <div class="cast-list">
+            <div class="cast-item">
+              <div class="cast-avatar">RZ</div>
+              <div>
+                <strong>Ralph Macchio</strong>
+                <div style="font-size: 12px; color: #8bb4ff;">Daniel LaRusso</div>
+              </div>
+            </div>
+            <div class="cast-item">
+              <div class="cast-avatar">WZ</div>
+              <div>
+                <strong>William Zabka</strong>
+                <div style="font-size: 12px; color: #8bb4ff;">Johnny Lawrence</div>
+              </div>
+            </div>
+            <div class="cast-item">
+              <div class="cast-avatar">XB</div>
+              <div>
+                <strong>Xolo Maridueña</strong>
+                <div style="font-size: 12px; color: #8bb4ff;">Miguel Diaz</div>
+              </div>
+            </div>
+            <div class="cast-item">
+              <div class="cast-avatar">MB</div>
+              <div>
+                <strong>Mary Mouser</strong>
+                <div style="font-size: 12px; color: #8bb4ff;">Samantha LaRusso</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ===== MUNDO DA SÉRIE ===== -->
+    <div class="world-section">
+      <h3 class="detail-title">O Mundo de Cobra Kai</h3>
+      
+      <div class="world-item">
+        <div class="world-icon">🥋</div>
+        <div>
+          <strong>Miyagi-Do Karate</strong>
+          <div style="color: #b8d4ff;">O estilo defensivo e filosófico de karatê ensinado por Daniel, baseado nos ensinamentos de Mr. Miyagi.</div>
+        </div>
+      </div>
+      
+      <div class="world-item">
+        <div class="world-icon">🐍</div>
+        <div>
+          <strong>Cobra Kai Dojo</strong>
+          <div style="color: #b8d4ff;">O estilo agressivo de karatê focado em ataque primeiro, sem piedade, ressuscitado por Johnny.</div>
+        </div>
+      </div>
+      
+      <div class="world-item">
+        <div class="world-icon">⚔️</div>
+        <div>
+          <strong>All Valley Tournament</strong>
+          <div style="color: #b8d4ff;">O torneio anual de karatê que serve como palco para a rivalidade entre os dojos.</div>
+        </div>
+      </div>
+      
+      <div class="world-item">
+        <div class="world-icon">👨‍👩‍👧‍👦</div>
+        <div>
+          <strong>Rivalidade Geracional</strong>
+          <div style="color: #b8d4ff;">Os conflitos dos anos 80 se repetem com uma nova geração de estudantes.</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ===== TEMPORADAS ===== -->
+    <div class="seasons-section">
+      <h3 class="detail-title">Temporadas e Episódios</h3>
+      
+      <div class="season-selector">
+        <button class="season-btn active">Temporada 1</button>
+        <button class="season-btn">Temporada 2</button>
+        <button class="season-btn">Temporada 3</button>
+        <button class="season-btn">Temporada 4</button>
+        <button class="season-btn">Temporada 5</button>
+        <button class="season-btn">Temporada 6 (Em Breve)</button>
+      </div>
+      
+      <div class="episodes-list">
+        <div class="episode-item">
+          <div class="episode-number">1</div>
+          <div class="episode-content">
+            <div class="episode-title">Aceita o Desafio</div>
+            <div class="episode-desc">Johnny Lawrence reabre o Cobra Kai e conhece Miguel, seu primeiro aluno.</div>
+          </div>
+          <div class="episode-duration">29min</div>
+        </div>
+        
+        <div class="episode-item">
+          <div class="episode-number">2</div>
+          <div class="episode-content">
+            <div class="episode-title">Ataque Primeiro</div>
+            <div class="episode-desc">Johnny ensina sua filosofia de vida para Miguel enquanto Daniel descobre o retorno do Cobra Kai.</div>
+          </div>
+          <div class="episode-duration">28min</div>
+        </div>
+        
+        <div class="episode-item">
+          <div class="episode-number">3</div>
+          <div class="episode-content">
+            <div class="episode-title">Esquivar, Bloquear, Contra-atacar</div>
+            <div class="episode-desc">Daniel começa a ensinar karatê para sua filha Samantha após um incidente com os alunos do Cobra Kai.</div>
+          </div>
+          <div class="episode-duration">27min</div>
+        </div>
+        
+        <div class="episode-item">
+          <div class="episode-number">4</div>
+          <div class="episode-content">
+            <div class="episode-title">A Mão Amiga</div>
+            <div class="episode-desc">A rivalidade entre os dojos se intensifica enquanto novos alunos se juntam a ambos os lados.</div>
+          </div>
+          <div class="episode-duration">29min</div>
+        </div>
+        
+        <div class="episode-item">
+          <div class="episode-number">5</div>
+          <div class="episode-content">
+            <div class="episode-title">Cobra Kai Nunca Morre</div>
+            <div class="episode-desc">O primeiro confronto físico entre os dojos ocorre durante uma festa na escola.</div>
+          </div>
+          <div class="episode-duration">30min</div>
+        </div>
+
+        <div class="episode-item">
+          <div class="episode-number">6</div>
+          <div class="episode-content">
+            <div class="episode-title">Quittin' Time</div>
+            <div class="episode-desc">Johnny enfrenta seu passado enquanto Daniel se prepara para enfrentar o Cobra Kai.</div>
+          </div>
+          <div class="episode-duration">28min</div>
+        </div>
+
+        <div class="episode-item">
+          <div class="episode-number">7</div>
+          <div class="episode-content">
+            <div class="episode-title">Diferentes, mas Iguais</div>
+            <div class="episode-desc">Ambos os dojos se preparam para o torneio All Valley enquanto alianças são testadas.</div>
+          </div>
+          <div class="episode-duration">31min</div>
+        </div>
+
+        <div class="episode-item">
+          <div class="episode-number">8</div>
+          <div class="episode-content">
+            <div class="episode-title">Molho de Ostras</div>
+            <div class="episode-desc">O torneio All Valley começa com confrontos emocionantes entre os estudantes.</div>
+          </div>
+          <div class="episode-duration">32min</div>
+        </div>
+
+        <div class="episode-item">
+          <div class="episode-number">9</div>
+          <div class="episode-content">
+            <div class="episode-title">A Hora da Verdade</div>
+            <div class="episode-desc">As finais do torneio testam não apenas as habilidades, mas o caráter dos competidores.</div>
+          </div>
+          <div class="episode-duration">35min</div>
+        </div>
+
+        <div class="episode-item">
+          <div class="episode-number">10</div>
+          <div class="episode-content">
+            <div class="episode-title">Meritíssimo</div>
+            <div class="episode-desc">O vencedor do torneio é coroado, mas a verdadeira batalha está apenas começando.</div>
+          </div>
+          <div class="episode-duration">38min</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="details-grid">
+      <div class="detail-section">
+        <h3 class="detail-title">Temas e Significados</h3>
+        <div class="detail-content">
+          <p>🔄 Redenção e segunda chances</p>
+          <p>🥋 Tradição versus inovação no karatê</p>
+          <p>👥 Paternidade e mentoria</p>
+          <p>⚖️ Equilíbrio entre agressão e defesa</p>
+          <p>🎭 Rivalidade e amizade</p>
+          <p>🏆 Competição saudável versus obsessão</p>
+        </div>
+      </div>
+      
+      <div class="detail-section">
+        <h3 class="detail-title">Detalhes Técnicos</h3>
+        <div class="detail-content">
+          <p><strong>Áudio:</strong> Inglês • Português • Espanhol</p>
+          <p><strong>Legendas:</strong> Português • Inglês • Espanhol • Francês</p>
+          <p><strong>Qualidade:</strong> 4K Ultra HD • HDR</p>
+          <p><strong>Formato:</strong> 16:9 Widescreen</p>
+          <p><strong>Duração dos Episódios:</strong> 27-38 minutos</p>
+          <p><strong>Localizações:</strong> Atlanta, Geórgia • Los Angeles, Califórnia</p>
+          <p><strong>Trilha Sonora:</strong> Músicas dos anos 80 e trilha original</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRAILER SECTION ===== -->
+  <section class="trailer-section">
+    <h2 class="trailer-title">Trailer Oficial</h2>
+    <div class="trailer-container">
+      <div class="trailer-placeholder">
+        <div class="play-icon">▶</div>
+        <p>Trailer - Cobra Kai Temporada 1</p>
+        <button class="btn-primary">Assistir Trailer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SÉRIES SIMILARES ===== -->
+  <section class="similar-series">
+    <h2 class="section-title">Séries que Você Pode Gostar</h2>
+    <div class="series-grid">
+      <div class="series-card">
+        <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Karate Kid">
+        <div class="series-card-content">
+          <h3 class="series-card-title">Karate Kid</h3>
+          <p class="series-card-info">Ação • Drama • Esporte</p>
+        </div>
+      </div>
+      
+      <div class="series-card">
+        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="GLOW">
+        <div class="series-card-content">
+          <h3 class="series-card-title">GLOW</h3>
+          <p class="series-card-info">Comédia • Drama • Esporte</p>
+        </div>
+      </div>
+      
+      <div class="series-card">
+        <img src="https://images.unsplash.com/photo-1531299204818-ea1ed1c75b1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="The Last Dance">
+        <div class="series-card-content">
+          <h3 class="series-card-title">The Last Dance</h3>
+          <p class="series-card-info">Documentário • Esporte • Drama</p>
+        </div>
+      </div>
+      
+      <div class="series-card">
+        <img src="https://images.unsplash.com/photo-1550748639-7f31edf44585?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kingdom">
+        <div class="series-card-content">
+          <h3 class="series-card-title">Kingdom</h3>
+          <p class="series-card-info">Drama • Esporte • Ação</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer>
+    © 2025 TimiCini - Todos os direitos reservados
+  </footer>
+
+  <script>
+    // Script para funcionalidades interativas
+    document.addEventListener('DOMContentLoaded', function() {
+      // Botão de assistir agora
+      const btnAssistir = document.querySelector('.btn-primary');
+      btnAssistir.addEventListener('click', function() {
+        alert('🥋 Iniciando Cobra Kai - Temporada 1, Episódio 1...');
+        // Aqui seria implementado o player de vídeo
+      });
+      
+      // Botão de adicionar à lista
+      const btnLista = document.querySelectorAll('.btn-secondary')[0];
+      btnLista.addEventListener('click', function() {
+        const adicionado = this.textContent.includes('✓');
+        if (adicionado) {
+          this.innerHTML = '<span>+</span> Minha Lista';
+          alert('❌ Removido da sua lista');
+        } else {
+          this.innerHTML = '<span>✓</span> Na sua Lista';
+          alert('✅ Adicionado à sua lista!');
+        }
+      });
+      
+      // Botão de trailer
+      const btnTrailer = document.querySelector('.trailer-placeholder .btn-primary');
+      btnTrailer.addEventListener('click', function() {
+        alert('🎥 Abrindo trailer de Cobra Kai...');
+      });
+      
+      // Seleção de temporadas
+      const seasonBtns = document.querySelectorAll('.season-btn');
+      seasonBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          seasonBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          if (this.textContent.includes('Em Breve')) {
+            alert('⏳ A sexta e última temporada de Cobra Kai chegará em breve!');
+          } else {
+            alert(`🥋 Carregando ${this.textContent}...`);
+          }
+        });
+      });
+      
+      // Clique nos episódios
+      const episodeItems = document.querySelectorAll('.episode-item');
+      episodeItems.forEach((item, index) => {
+        item.addEventListener('click', function() {
+          const episodeTitle = this.querySelector('.episode-title').textContent;
+          alert(`🥋 Iniciando "${episodeTitle}"...`);
+        });
+      });
+      
+      // Botão de mais informações
+      const btnInfo = document.querySelectorAll('.btn-secondary')[1];
+      btnInfo.addEventListener('click', function() {
+        alert('ℹ️ Cobra Kai é uma continuação da franquia Karate Kid que explora temas de redenção, rivalidade e os desafios de crescer em um mundo complexo, misturando ação, comédia e drama com nostalgia dos anos 80.');
+      });
+    });
+  </script>
+</body>
+</html>

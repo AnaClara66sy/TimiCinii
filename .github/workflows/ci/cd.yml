@@ -1,0 +1,11 @@
+
+name: Pipeline CI/CD - TimiCinii
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
