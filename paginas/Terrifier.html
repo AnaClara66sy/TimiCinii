@@ -649,7 +649,7 @@
       // Botão de detalhes
       const detailsBtn = document.querySelectorAll('.btn-secondary')[1];
       detailsBtn.addEventListener('click', function() {
-        window.location.href = 'detalhes-terrifier.html';
+        document.querySelector('.movie-info-section').scrollIntoView({ behavior: 'smooth' });
       });
     });
   </script>
