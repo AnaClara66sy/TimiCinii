@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
@@ -15,13 +16,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Baixar o codigo do repositorio
       - name: Baixar codigo do repositorio
         uses: actions/checkout@v4
 
+      # 2. Configurar o ambiente Python
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # 3. Verificar a pagina inicial
       - name: Verificar pagina inicial
         run: test -f paginas/index.html
 
+      # 4. Verificar a pasta de imagens
       - name: Verificar pasta de imagens
         run: test -d fotos
 
-    
+      # 5. Validar os links das paginas HTML
+      - name: Validar links HTML
+        run: python scripts/validar_html.py

@@ -771,28 +771,6 @@
     </div>
   </section>
 
-  <!-- ===== TRAILER SECTION ===== -->
-  <section class="trailer-section">
-    <h2 class="trailer-title">Trailer Oficial</h2>
-    <div class="trailer-container">
-      <video class="video-player" id="trailerVideo" poster="mononoke-poster.jpg">
-        <!-- VÍDEO DIRETAMENTE NO SITE -->
-        <source src="trailer-mononoke.mp4" type="video/mp4">
-        <source src="trailer-mononoke.webm" type="video/webm">
-        Seu navegador não suporta o elemento de vídeo.
-      </video>
-      
-      <button class="play-button" id="playButton">▶</button>
-      
-      <div class="video-controls">
-        <button class="control-btn" onclick="playPause()">▶ Play/Pause</button>
-        <button class="control-btn" onclick="toggleMute()">🔊 Som</button>
-        <button class="control-btn" onclick="toggleFullscreen()">⛶ Tela Cheia</button>
-        <button class="control-btn" onclick="restartVideo()">↺ Reiniciar</button>
-      </div>
-    </div>
-  </section>
-
   <!-- ===== FILMES SIMILARES ===== -->
   <section class="similar-movies">
     <h2 class="section-title">Filmes que Você Pode Gostar</h2>
@@ -837,66 +815,6 @@
   </footer>
 
   <script>
-    // Controles do player de vídeo
-    const video = document.getElementById('trailerVideo');
-    const playButton = document.getElementById('playButton');
-
-    // Função para play/pause
-    function playPause() {
-      if (video.paused) {
-        video.play();
-        playButton.style.display = 'none';
-      } else {
-        video.pause();
-        playButton.style.display = 'flex';
-      }
-    }
-
-    // Função para mutar/desmutar
-    function toggleMute() {
-      video.muted = !video.muted;
-      const muteBtn = document.querySelector('.control-btn:nth-child(2)');
-      muteBtn.textContent = video.muted ? '🔇 Mudo' : '🔊 Som';
-    }
-
-    // Função para tela cheia
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        video.requestFullscreen().catch(err => {
-          console.log(`Erro ao tentar fullscreen: ${err.message}`);
-        });
-      } else {
-        document.exitFullscreen();
-      }
-    }
-
-    // Função para reiniciar vídeo
-    function restartVideo() {
-      video.currentTime = 0;
-      video.play();
-      playButton.style.display = 'none';
-    }
-
-    // Event listeners
-    playButton.addEventListener('click', playPause);
-    
-    video.addEventListener('click', function() {
-      playPause();
-    });
-
-    video.addEventListener('play', function() {
-      playButton.style.display = 'none';
-    });
-
-    video.addEventListener('pause', function() {
-      playButton.style.display = 'flex';
-    });
-
-    video.addEventListener('ended', function() {
-      playButton.style.display = 'flex';
-      playButton.textContent = '↻';
-    });
-
     // Botão de assistir agora
     const btnAssistir = document.querySelector('.btn-primary');
     btnAssistir.addEventListener('click', function() {
