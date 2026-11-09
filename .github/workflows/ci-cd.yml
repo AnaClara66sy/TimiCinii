@@ -27,6 +27,18 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Instalar dependencias do projeto
+        run: npm ci
+
+      - name: Validar estrutura HTML com HTMLHint
+        run: npm run test:html
+
       - name: Verificar pagina inicial
         run: test -f paginas/index.html
 
