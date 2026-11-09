@@ -1,0 +1,27 @@
+
+name: Pipeline CI/CD - TimiCinii
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: Validar site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar codigo do repositorio
+        uses: actions/checkout@v4
+
+      - name: Verificar pagina inicial
+        run: test -f paginas/index.html
+
+      - name: Verificar pasta de imagens
+        run: test -d fotos
+
+    
